@@ -21,6 +21,5 @@ public class TetrisDriver extends JFrame
       frame.setContentPane(new TetrisPanel(frame)); //sets TetrisPanel as the current content pane
       frame.setExtendedState(JFrame.MAXIMIZED_BOTH); //sets the frame so that it's maximized (full screen)
       frame.setVisible(true); //makes the frame visible
-      frame.setFocusable(true); //makes the frame the object of focus
    }
 }

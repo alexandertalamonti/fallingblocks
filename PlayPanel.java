@@ -6,10 +6,8 @@
 //imports
 import java.awt.*;
 import javax.swing.JPanel;
-import java.awt.image.BufferedImage;
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.image.*;
 import java.util.ArrayList;
 import java.io.*; 
 import java.util.*; 
@@ -20,7 +18,7 @@ import javax.sound.sampled.*;
 
 public class PlayPanel extends JPanel {
 
-   public static int[][] matrix = new int[20][10]; //creates a matrix that stores 0s for black and 1s for color
+   public static int[][] matrix = new int[20][10]; //creates a matrix that stores 0s for spaces and 1s for blocks
    public static JButton[][] board; //creates a JButton matrix that will act as the grid
    private int[] scoresArray; //creates an intArray that will hold all the previous scores
    private String[] namesArray; //creates a String array that will hold all the previous names
@@ -37,12 +35,12 @@ public class PlayPanel extends JPanel {
    private JLabel[] labelArray; //creates a JLabel array that will store labels for the leaderboard
    public Clip clip;
 
-   /*
-   *PlayPanel is the panel that will hold the game and the leaderboard
-   *@param myFrame the frame that it will be on
-   *@param theme the appearance of the tetrominos
-   *@param musVolume the volume of the song
-   */
+   /***
+   * PlayPanel is the panel that will hold the game and the leaderboard
+   * @param myFrame the frame that it will be on
+   * @param theme the appearance of the tetrominos
+   * @param musVolume the volume of the song
+   ***/
    public PlayPanel(JFrame myFrame, String theme, float musVolume) {
       
       //creates a Scanner object that will check TetrisScores.txt and will create one if it doesn't exist
@@ -418,16 +416,16 @@ public class PlayPanel extends JPanel {
             
          }
       
-       
+      
       
       }
    }
    
-   /*
-   *update creates a new piece when a tetromino reaches the bottom or collides with another tetromino
-   *@param myTheme the current theme that the user has selected
+   /****
+   * update creates a new piece when a tetromino reaches the bottom or collides with another tetromino
+   * @param myTheme the current theme that the user has selected
    */
-   public  void update(String myTheme) {
+   public void update(String myTheme) {
    
       //if the user loses
       if(sequence.get(blockNumber).getStopped() && (sequence.get(blockNumber).getY(0)==1 || sequence.get(blockNumber).getY(1)==1 || sequence.get(blockNumber).getY(2)==1 || sequence.get(blockNumber).getY(3)==1)) {

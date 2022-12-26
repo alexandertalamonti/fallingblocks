@@ -19,13 +19,13 @@ public class TetrisPanel extends JPanel {
 
    //create ImageIcons for the background and the titles at different themes
    private static final ImageIcon background = new ImageIcon("Tetris Background.png"); 
-   private static final ImageIcon title1 = new ImageIcon("Title.png");
-   private static final ImageIcon title2 = new ImageIcon("Title-Cool.png");
-   private static final ImageIcon title3 = new ImageIcon("Title-Warm.png");
-   private static final ImageIcon title4 = new ImageIcon("Title-Transparent.png");
+   private static final ImageIcon titleDefault = new ImageIcon("Title.png");
+   private static final ImageIcon titleCool = new ImageIcon("Title-Cool.png");
+   private static final ImageIcon titleWarm = new ImageIcon("Title-Warm.png");
+   private static final ImageIcon titleTransparent = new ImageIcon("Title-Transparent.png");
 
    private BufferedImage myImage; //create a new BufferedImage
-   private JPanel mainMenu; //create several JPanels
+   private JPanel mainMenu; //create mainMenu JPanel
    public Clip clip; //create a Clip
    
    
@@ -102,31 +102,11 @@ public class TetrisPanel extends JPanel {
          e.printStackTrace();
       }
       
-      setFocusable(true); //sets this panel as the focus
-      
       //creates a buffer and draws images on it based on what the theme is
       final int N = 1200; //width & height of buffered-image
       myImage = new BufferedImage(N, N, BufferedImage.TYPE_INT_RGB);
       Graphics buffer = myImage.getGraphics();
       buffer.drawImage(background.getImage(), 0, 0, 1200, 1200, null);
-      buffer.drawImage(title1.getImage(), 75, 50, 1200, 700, null); 
-
-      if(saveTheme.equals("Default Theme"))
-      {
-         buffer.drawImage(title1.getImage(), 75, 50, 1200, 700, null); 
-      }
-      else if(saveTheme.equals("Cool Theme"))
-      {
-         buffer.drawImage(title2.getImage(), 75, 50, 1200, 700, null); 
-      }
-      else if(saveTheme.equals("Warm Theme"))
-      {
-         buffer.drawImage(title3.getImage(), 75, 50, 1200, 700, null); 
-      }
-      else if(saveTheme.equals("Transparent Theme"))
-      {
-         buffer.drawImage(title4.getImage(), 75, 50, 1200, 700, null); 
-      }
 
       setLayout(new BorderLayout()); //sets the layout of the panel
 
@@ -171,6 +151,8 @@ public class TetrisPanel extends JPanel {
 
       if(saveTheme.equals("Default Theme"))
       {
+         buffer.drawImage(titleDefault.getImage(), 75, 50, 1200, 700, null);
+
          playGame.setBackground(Color.RED.brighter()); 
          playGame.setForeground(Color.WHITE);
          howToPlay.setBackground(Color.ORANGE);
@@ -184,6 +166,8 @@ public class TetrisPanel extends JPanel {
       }
       else if(saveTheme.equals("Cool Theme"))
       {
+         buffer.drawImage(titleCool.getImage(), 75, 50, 1200, 700, null);
+         
          playGame.setBackground(Color.CYAN);
          playGame.setForeground(Color.WHITE);
          howToPlay.setBackground(Color.MAGENTA.darker());
@@ -197,6 +181,8 @@ public class TetrisPanel extends JPanel {
       }
       else if(saveTheme.equals("Warm Theme"))
       {
+         buffer.drawImage(titleWarm.getImage(), 75, 50, 1200, 700, null);
+         
          playGame.setBackground(Color.ORANGE);
          playGame.setForeground(Color.WHITE);
          howToPlay.setBackground(Color.YELLOW.darker());
@@ -210,6 +196,8 @@ public class TetrisPanel extends JPanel {
       }
       else if(saveTheme.equals("Transparent Theme"))
       {
+         buffer.drawImage(titleTransparent.getImage(), 75, 50, 1200, 700, null);
+         
          playGame.setBackground(Color.BLACK);
          playGame.setForeground(Color.WHITE);
          howToPlay.setBackground(Color.BLACK);
@@ -273,9 +261,9 @@ public class TetrisPanel extends JPanel {
    
    }
    
-   /*
-   *HowToPlayListener is a listener that brings users to the instructionsPanel when the how to play button is clicked
-   */
+   /*****
+   * HowToPlayListener is a listener that brings users to the instructionsPanel when the how to play button is clicked
+   ******/
    private class HowToPlayListener implements ActionListener
    {
       private JFrame theFrame;
@@ -292,9 +280,9 @@ public class TetrisPanel extends JPanel {
    
    
 
-   /*
-   *OptionsListener is a listener that brings users to the optionsPanel when the how to options button is clicked
-   */
+   /*****
+   * OptionsListener is a listener that brings users to the optionsPanel when the how to options button is clicked
+   ******/
    private class OptionsListener implements ActionListener
    {
       private JFrame theFrame;
@@ -310,9 +298,9 @@ public class TetrisPanel extends JPanel {
       }
    }
    
-   /*
-   *CreditsListener is a listener that brings users to the creditsPanel when the how to credits button is clicked
-   */
+   /*****
+   * CreditsListener is a listener that brings users to the creditsPanel when the how to credits button is clicked
+   ******/
    private class CreditsListener implements ActionListener
    {
       private JFrame theFrame;
@@ -327,9 +315,9 @@ public class TetrisPanel extends JPanel {
       }
    }
 
-   /*
-   *QuitListener is a listener that closes the program when the quit button is clicked
-   */
+   /*****
+   * QuitListener is a listener that closes the program when the quit button is clicked
+   ******/
    private class QuitListener implements ActionListener
    {
       public void actionPerformed(ActionEvent e)
