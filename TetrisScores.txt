@@ -1,4 +1,4 @@
-14
+17
 5100
 AlexT
 5000
@@ -17,6 +17,8 @@ Chode
 James
 1500
 CHODDD
+1100
+null
 1000
 Bodvar
 500
@@ -24,6 +26,10 @@ Teros
 100
 BeigeDude
 0
-Chode
+null
 0
 null
+0
+Chode
+2200
+

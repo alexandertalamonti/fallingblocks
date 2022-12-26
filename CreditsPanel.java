@@ -109,7 +109,7 @@ public class CreditsPanel extends JPanel {
 
       
       
-           
+
    }
    
    /*
@@ -136,7 +136,6 @@ public class CreditsPanel extends JPanel {
 
 
 }
-   
 
 
 

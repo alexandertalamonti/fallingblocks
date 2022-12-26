@@ -7,11 +7,11 @@ import java.awt.*;
 public class ZPiece extends Tetromino {   
 
    /************************************************************* 
-  	* Contructs an ZPiece with it's four block coordinates and it's Color  
-   * @param x X-coordinate of top left block
-   * @param y Y-coordinate of top left block
-   * @param c Color of the Tetromino 
-  	**************************************************************/
+  	 * Contructs an ZPiece with it's four block coordinates and it's Color  
+    * @param x X-coordinate of top left block
+    * @param y Y-coordinate of top left block
+    * @param c Color of the Tetromino 
+  	 **************************************************************/
    public ZPiece(int x, int y, Color c, String img) 
    {
       super(x, x, x+1, x+1, y, y+1, y-1, y, c, img); 
@@ -25,7 +25,7 @@ public class ZPiece extends Tetromino {
    }
    
    
-    /************************************************************* 
+   /************************************************************* 
    * Makes the ZPiece rotate clockwise and is a concrete method that 
    * is defined differently in each of the Tetromino subclasses.
    * Also changes which blocks are in the lowest position.

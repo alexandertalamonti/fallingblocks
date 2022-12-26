@@ -1,6 +1,6 @@
 /*****************************************************************
-*PlayPanel is the panel that contains the actual game. 
-*@authors Aadith Charugundla, Alexander Talamonti, Julian Gavino
+* PlayPanel is the panel that contains the actual game. 
+* @author Aadith Charugundla, Alexander Talamonti, Julian Gavino
 ******************************************************************/
 //To do list: HOLD FEATURE, NEXT BLOCK FEATURE, RANDOMIZED GRAB BAG FEATURE, FIX COLLISIONS FROM LEFT TO RIGHT, FIX BUGS, MAKE THEMES UNLOCKABLE, CREATE A BETTER SCOREBOARD, BACK AND RESET BUTTONS
 //imports
@@ -146,11 +146,15 @@ public class PlayPanel extends JPanel {
       
       //create the board
       
+      // on Mac, must setOpaque(true) and setBorderPainted(false)
+
       board = new JButton[20][10];
       for (int r = 0; r < 20; r++) {
          for (int c = 0; c < 10; c++) {
             board[r][c] = new JButton("");
             board[r][c].setBackground(Color.black);
+            board[r][c].setOpaque(true);
+            board[r][c].setBorderPainted(false);
             board[r][c].setEnabled(false);
             boardPanel.add(board[r][c]); 
             
@@ -595,9 +599,9 @@ public class PlayPanel extends JPanel {
       blockNumber++;    
    }
    
-   /*
-   *sorts the array so that the highest goes first and the lowest goes last
-   *@param array the int array that will be sorted
+   /****
+   * sorts the array so that the highest goes first and the lowest goes last
+   * @param array the int array that will be sorted
    */
    public int[] sort(int[] array)
    {
@@ -628,11 +632,11 @@ public class PlayPanel extends JPanel {
       return array;
    }
 
-   /*
-   *output will change the JLabels so that they display the highscores
-   *@param no the int array which will be displayed
-   *@param yes the String array that will be displayed
-   */
+   /*****
+   * output will change the JLabels so that they display the highscores
+   * @param no the int array which will be displayed
+   * @param yes the String array that will be displayed
+   ******/
    public void output(int[] no, String[] yes)
    {
    
@@ -645,37 +649,37 @@ public class PlayPanel extends JPanel {
    }
       
 
-   /*
-   *returns the value of the matrix at the desired location
-   *@param r the row
-   *@param c the column
-   *@return matrix[r][c]
-   */
+   /******
+   * returns the value of the matrix at the desired location
+   * @param r the row
+   * @param c the column
+   * @return matrix[r][c]
+   *******/
    public static int getMatrixVal(int r, int c) {
       return matrix[r][c];
    }
    
-   /*
-   *sets the value of the matrix at the desired location to the desired integer
-   *@param r the row
-   *@param c the column
-   *@param x the integer
-   */
+   /******
+   * sets the value of the matrix at the desired location to the desired integer
+   * @param r the row
+   * @param c the column
+   * @param x the integer
+   ******/
    public static void setMatrix(int r, int c, int x) {
       matrix[r][c] = x;
    }
    
-   /*
-   *returns the key
-   *@return key
-   */
+   /******
+   * returns the key
+   * @return key
+   *******/
    public static Key getKey() {
       return key;
    }
    
-   /*
-   *will clear a row and bring the row above it down if there are 10 blocks in that row
-   */
+   /*****
+   * will clear a row and bring the row above it down if there are 10 blocks in that row
+   ******/
    public void clearRows() {
       int numInRow = 0;
       for(int r = 0; r < matrix.length; r++) {
@@ -698,14 +702,14 @@ public class PlayPanel extends JPanel {
                   {
                   //we don't really know why we need this but we do
                   }
-                   
+
                }  
             totalScore += 100; 
             scoreLabel2.setText("" + totalScore);    
          }
          numInRow = 0;      
       }
-          
+
    }
 
 }

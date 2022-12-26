@@ -1,8 +1,8 @@
 /*****************************************************************
-*TetrisPanel is the panel that acts as the main menu of the game.
-*It contains buttons that lead to the other panels such as the options
-*panel and the instructions panel. 
-*@authors Aadith Charugundla, Alexander Talamonti, Julian Gavino
+* TetrisPanel is the panel that acts as the main menu of the game.
+* It contains buttons that lead to the other panels such as the options
+* panel and the instructions panel. 
+* @author Aadith Charugundla, Alexander Talamonti, Julian Gavino
 ******************************************************************/
 
 //imports 
@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.image.*;
 import java.net.URL;
 import javax.sound.sampled.*;
 import java.io.*; 
@@ -26,27 +25,27 @@ public class TetrisPanel extends JPanel {
    private static final ImageIcon title4 = new ImageIcon("Title-Transparent.png");
 
    private BufferedImage myImage; //create a new BufferedImage
-   private JPanel mainMenu, buttonPanel, mainPanel; //create several JPanels
+   private JPanel mainMenu; //create several JPanels
    public Clip clip; //create a Clip
    
    
-   /*
-   *TetrisPanel is the main menu 
-   *@param myFrame the current frame
-   */
+   /*****
+   * TetrisPanel is the main menu 
+   * @param myFrame the current frame
+   *****/
    public TetrisPanel(JFrame myFrame) { //passes the frame that it is in
       //create a new Scanner object and make it scan the file savadata.txt. If there isn't a file, it will prompt the user to make a file.
       Scanner infile = null;
       try{
          infile = new Scanner(new File("savedata.txt"));
       }
-       catch(FileNotFoundException e){
+      catch(FileNotFoundException e){
          JOptionPane.showMessageDialog(null,"It looks like we couldn't access your saved preferences. Let's create a new save file.");
          String firstTheme = JOptionPane.showInputDialog("What Theme?\nDefault Theme\nWarm Theme\nCool Theme\nTransparent Theme\n");
          while(!firstTheme.equalsIgnoreCase("Default Theme") && !firstTheme.equalsIgnoreCase("Cool Theme") && !firstTheme.equalsIgnoreCase("Warm Theme") &&
-             !firstTheme.equalsIgnoreCase("Transparent")&&!firstTheme.equalsIgnoreCase("Default") && !firstTheme.equalsIgnoreCase("Cool") && !firstTheme.equalsIgnoreCase("Warm") && 
-             !firstTheme.equalsIgnoreCase("Transparent")) {
-             
+            !firstTheme.equalsIgnoreCase("Transparent")&&!firstTheme.equalsIgnoreCase("Default") && !firstTheme.equalsIgnoreCase("Cool") && !firstTheme.equalsIgnoreCase("Warm") && 
+            !firstTheme.equalsIgnoreCase("Transparent")) {
+
             firstTheme = JOptionPane.showInputDialog("That's not a valid choice!\nWhat Theme?\nDefault Theme\nWarm Theme\nCool Theme\nTransparent Theme\n");
          }
          JOptionPane.showMessageDialog(null, "We are setting your default volume to 50 (recommended). You can change this later in the options page.");
@@ -111,7 +110,7 @@ public class TetrisPanel extends JPanel {
       Graphics buffer = myImage.getGraphics();
       buffer.drawImage(background.getImage(), 0, 0, 1200, 1200, null);
       buffer.drawImage(title1.getImage(), 75, 50, 1200, 700, null); 
-       
+
       if(saveTheme.equals("Default Theme"))
       {
          buffer.drawImage(title1.getImage(), 75, 50, 1200, 700, null); 
@@ -128,149 +127,116 @@ public class TetrisPanel extends JPanel {
       {
          buffer.drawImage(title4.getImage(), 75, 50, 1200, 700, null); 
       }
-   
+
       setLayout(new BorderLayout()); //sets the layout of the panel
-   
+
       //creates a new JPanel that will hold all the buttons to go to the other panels
       mainMenu = new JPanel(); 
       mainMenu.setLayout(new FlowLayout()); 
       mainMenu.setBackground(Color.black); 
       add(mainMenu, BorderLayout.SOUTH); 
-   
+
       //adding five buttons: Play Game, How to Play, Options, Quit, Credits. The appearance of the buttons changes based on theme
-   
+      // for Mac, you need to add setOpaque(true) and setBorderPainted(false) for some reason...
+
       //play game
       JButton playGame = new JButton("Play Game"); 
       playGame.setFont(new Font("Monospaced", Font.BOLD, 40));
+      playGame.setOpaque(true);
+      playGame.setBorderPainted(false);
+
+      //instructions
+      JButton howToPlay = new JButton("How To Play"); 
+      howToPlay.setFont(new Font("Monospaced", Font.BOLD, 40));
+      howToPlay.setOpaque(true);
+      howToPlay.setBorderPainted(false);
+
+      //options
+      JButton Options = new JButton("Options"); 
+      Options.setFont(new Font("Monospaced", Font.BOLD, 40));
+      Options.setOpaque(true);
+      Options.setBorderPainted(false);
+
+      //Quit
+      JButton Quit = new JButton("Exit Game"); 
+      Quit.setFont(new Font("Monospaced", Font.BOLD, 40));
+      Quit.setOpaque(true);
+      Quit.setBorderPainted(false);
+
+      //Credits
+      JButton credits = new JButton("Credits"); 
+      credits.setFont(new Font("Monospaced", Font.BOLD, 40));
+      credits.setOpaque(true);
+      credits.setBorderPainted(false);
+
       if(saveTheme.equals("Default Theme"))
       {
          playGame.setBackground(Color.RED.brighter()); 
          playGame.setForeground(Color.WHITE);
-      }
-      else if(saveTheme.equals("Cool Theme"))
-      {
-         playGame.setBackground(Color.CYAN);
-         playGame.setForeground(Color.WHITE);
-      }
-      else if(saveTheme.equals("Warm Theme"))
-      {
-         playGame.setBackground(Color.ORANGE);
-         playGame.setForeground(Color.WHITE);
-      }
-      else if(saveTheme.equals("Transparent Theme"))
-      {
-         playGame.setBackground(Color.BLACK);
-         playGame.setForeground(Color.WHITE);
-      }
-      playGame.addActionListener(new PlayListener(myFrame, saveTheme, musicVolume)); 
-      mainMenu.add(playGame); 
-   
-     //instructions
-      JButton howToPlay = new JButton("How To Play"); 
-      howToPlay.setFont(new Font("Monospaced", Font.BOLD, 40)); 
-      if(saveTheme.equals("Default Theme"))
-      {
          howToPlay.setBackground(Color.ORANGE);
          howToPlay.setForeground(Color.WHITE);
-      }
-      else if(saveTheme.equals("Cool Theme"))
-      {
-         howToPlay.setBackground(Color.MAGENTA.darker());
-         howToPlay.setForeground(Color.WHITE);
-      }
-      else if(saveTheme.equals("Warm Theme"))
-      {
-         howToPlay.setBackground(Color.YELLOW.darker());
-         howToPlay.setForeground(Color.WHITE);
-      }
-      else if(saveTheme.equals("Transparent Theme"))
-      {
-         howToPlay.setBackground(Color.BLACK);
-         howToPlay.setForeground(Color.WHITE);
-      }
-      howToPlay.addActionListener(new HowToPlayListener(myFrame)); 
-      mainMenu.add(howToPlay);
-      
-      //options
-      JButton Options = new JButton("Options"); 
-      Options.setFont(new Font("Monospaced", Font.BOLD, 40)); 
-      if(saveTheme.equals("Default Theme"))
-      {
          Options.setBackground(Color.GREEN);
          Options.setForeground(Color.WHITE);
-      }
-      else if(saveTheme.equals("Cool Theme"))
-      {
-         Options.setBackground(Color.BLUE);
-         Options.setForeground(Color.WHITE);
-      }
-      else if(saveTheme.equals("Warm Theme"))
-      {
-         Options.setBackground(Color.RED);
-         Options.setForeground(Color.WHITE);
-      }
-      else if(saveTheme.equals("Transparent Theme"))
-      {
-         Options.setBackground(Color.BLACK);
-         Options.setForeground(Color.WHITE);
-      }
-      Options.addActionListener(new OptionsListener(myFrame)); 
-      mainMenu.add(Options);
-      
-      //Quit
-      JButton Quit = new JButton("Exit Game"); 
-      Quit.setFont(new Font("Monospaced", Font.BOLD, 40)); 
-      if(saveTheme.equals("Default Theme"))
-      {
          Quit.setBackground(Color.BLUE.brighter());
          Quit.setForeground(Color.WHITE);
-      }
-      else if(saveTheme.equals("Cool Theme"))
-      {
-         Quit.setBackground(Color.GREEN.darker());
-         Quit.setForeground(Color.WHITE);
-      }
-      else if(saveTheme.equals("Warm Theme"))
-      {
-         Quit.setBackground(Color.PINK.darker());
-         Quit.setForeground(Color.WHITE);
-      }
-      else if(saveTheme.equals("Transparent Theme"))
-      {
-         Quit.setBackground(Color.BLACK);
-         Quit.setForeground(Color.WHITE);
-      }
-      Quit.addActionListener(new QuitListener()); 
-      mainMenu.add(Quit);
-      
-      //Credits
-      JButton credits = new JButton("Credits"); 
-      credits.setFont(new Font("Monospaced", Font.BOLD, 40)); 
-      if(saveTheme.equals("Default Theme"))
-      {
          credits.setBackground(Color.MAGENTA);
          credits.setForeground(Color.WHITE);
       }
       else if(saveTheme.equals("Cool Theme"))
       {
+         playGame.setBackground(Color.CYAN);
+         playGame.setForeground(Color.WHITE);
+         howToPlay.setBackground(Color.MAGENTA.darker());
+         howToPlay.setForeground(Color.WHITE);
+         Options.setBackground(Color.BLUE);
+         Options.setForeground(Color.WHITE);
+         Quit.setBackground(Color.GREEN.darker());
+         Quit.setForeground(Color.WHITE);
          credits.setBackground(Color.BLUE.darker());
          credits.setForeground(Color.WHITE);
       }
       else if(saveTheme.equals("Warm Theme"))
       {
+         playGame.setBackground(Color.ORANGE);
+         playGame.setForeground(Color.WHITE);
+         howToPlay.setBackground(Color.YELLOW.darker());
+         howToPlay.setForeground(Color.WHITE);
+         Options.setBackground(Color.RED);
+         Options.setForeground(Color.WHITE);
+         Quit.setBackground(Color.PINK.darker());
+         Quit.setForeground(Color.WHITE);
          credits.setBackground(Color.ORANGE.darker());
          credits.setForeground(Color.WHITE);
       }
       else if(saveTheme.equals("Transparent Theme"))
       {
+         playGame.setBackground(Color.BLACK);
+         playGame.setForeground(Color.WHITE);
+         howToPlay.setBackground(Color.BLACK);
+         howToPlay.setForeground(Color.WHITE);
+         Options.setBackground(Color.BLACK);
+         Options.setForeground(Color.WHITE);
+         Quit.setBackground(Color.BLACK);
+         Quit.setForeground(Color.WHITE);
          credits.setBackground(Color.BLACK);
          credits.setForeground(Color.WHITE);
       }
+      playGame.addActionListener(new PlayListener(myFrame, saveTheme, musicVolume)); 
+      mainMenu.add(playGame); 
+
+      howToPlay.addActionListener(new HowToPlayListener(myFrame)); 
+      mainMenu.add(howToPlay);
+
+      Options.addActionListener(new OptionsListener(myFrame)); 
+      mainMenu.add(Options);
+      
+      Quit.addActionListener(new QuitListener()); 
+      mainMenu.add(Quit);
+
       credits.addActionListener(new CreditsListener(myFrame)); 
       mainMenu.add(credits);
-            
    }
- 
+
    //paints the buffered-image
    public void paintComponent(Graphics g) {
       g.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
@@ -278,9 +244,9 @@ public class TetrisPanel extends JPanel {
    
    //The different Listeners of the buttons that we had
    
-   /*
-   *PlayListener is a listener that brings users to the playPanel when the play button is clicked
-   */
+   /****
+   * PlayListener is a listener that brings users to the playPanel when the play button is clicked
+   *****/
    private class PlayListener implements ActionListener
    {
       private JFrame theFrame;
@@ -325,7 +291,7 @@ public class TetrisPanel extends JPanel {
    }
    
    
- 
+
    /*
    *OptionsListener is a listener that brings users to the optionsPanel when the how to options button is clicked
    */
@@ -360,11 +326,11 @@ public class TetrisPanel extends JPanel {
          theFrame.setVisible(true);              
       }
    }
- 
+
    /*
    *QuitListener is a listener that closes the program when the quit button is clicked
    */
-   private class  QuitListener implements ActionListener
+   private class QuitListener implements ActionListener
    {
       public void actionPerformed(ActionEvent e)
       {
