@@ -205,6 +205,7 @@ public class PlayPanel extends JPanel {
                break;
             default: System.out.println("Something has gone wrong...");
          }
+
       } else if (theme.equalsIgnoreCase("Warm Theme")) {
          switch(sequencer) {
             case 1: Color warmCol1 = new Color(255,192,107);
@@ -294,8 +295,8 @@ public class PlayPanel extends JPanel {
       
    }
    
-   /*
-   *Listener makes the pieces slowly move down 1 spot in the grid at a time
+   /**
+   * Listener makes the pieces slowly move down 1 spot in the grid at a time
    */
    public class Listener implements ActionListener {
       String theme;
@@ -325,7 +326,6 @@ public class PlayPanel extends JPanel {
             }
             catch (ArrayIndexOutOfBoundsException  i) 
             {
-            
                update(theme);
             }
          }
@@ -353,11 +353,7 @@ public class PlayPanel extends JPanel {
                   board[sequence.get(blockNumber).getY(2)][sequence.get(blockNumber).getX(2)].setBackground(sequence.get(blockNumber).getColor());
                   board[sequence.get(blockNumber).getY(3)][sequence.get(blockNumber).getX(3)].setBackground(sequence.get(blockNumber).getColor());
                }
-         
-               
          }
-      
-            
          if(e.getKeyCode() == KeyEvent.VK_RIGHT){
             if((sequence.get(blockNumber).getX(0) != 9) && (sequence.get(blockNumber).getX(1) != 9) && (sequence.get(blockNumber).getX(2) != 9) && (sequence.get(blockNumber).getX(3) != 9) && (sequence.get(blockNumber).getY(0) != 19) && (sequence.get(blockNumber).getY(1) != 19) && (sequence.get(blockNumber).getY(2) != 19) && (sequence.get(blockNumber).getY(3) != 19))
                if( (matrix[sequence.get(blockNumber).getY(0)][sequence.get(blockNumber).getX(0) + 1] != 1 && sequence.get(blockNumber).getX(0) < 10)&& (matrix[sequence.get(blockNumber).getY(1)][sequence.get(blockNumber).getX(1) + 1] != 1 && sequence.get(blockNumber).getX(1) < 10)&& (matrix[sequence.get(blockNumber).getY(3)][sequence.get(blockNumber).getX(3) + 1] != 1 && sequence.get(blockNumber).getX(3) < 10)&& (matrix[sequence.get(blockNumber).getY(2)][sequence.get(blockNumber).getX(2) + 1] != 1 && sequence.get(blockNumber).getX(2) < 10 )&& (matrix[sequence.get(blockNumber).getY(0) + 1][sequence.get(blockNumber).getX(0) + 1] != 1 && sequence.get(blockNumber).getX(0) < 10)&& (matrix[sequence.get(blockNumber).getY(1) + 1][sequence.get(blockNumber).getX(1) + 1] != 1 && sequence.get(blockNumber).getX(1) < 10)&& (matrix[sequence.get(blockNumber).getY(3) + 1][sequence.get(blockNumber).getX(3) + 1] != 1 && sequence.get(blockNumber).getX(3) < 10 )&& (matrix[sequence.get(blockNumber).getY(2) + 1][sequence.get(blockNumber).getX(2) + 1] != 1 && sequence.get(blockNumber).getX(2) < 10))
@@ -373,8 +369,6 @@ public class PlayPanel extends JPanel {
                   board[sequence.get(blockNumber).getY(3)][sequence.get(blockNumber).getX(3)].setBackground(sequence.get(blockNumber).getColor());
                }
          }
-            
-      
          if(e.getKeyCode() == KeyEvent.VK_DOWN){
             board[sequence.get(blockNumber).getY(0)][sequence.get(blockNumber).getX(0)].setBackground(Color.black);
             board[sequence.get(blockNumber).getY(1)][sequence.get(blockNumber).getX(1)].setBackground(Color.black);
@@ -385,10 +379,7 @@ public class PlayPanel extends JPanel {
             board[sequence.get(blockNumber).getY(1)][sequence.get(blockNumber).getX(1)].setBackground(sequence.get(blockNumber).getColor());
             board[sequence.get(blockNumber).getY(2)][sequence.get(blockNumber).getX(2)].setBackground(sequence.get(blockNumber).getColor());
             board[sequence.get(blockNumber).getY(3)][sequence.get(blockNumber).getX(3)].setBackground(sequence.get(blockNumber).getColor());
-         
-            
          }
-         
          if(e.getKeyCode() == KeyEvent.VK_UP){
             board[sequence.get(blockNumber).getY(0)][sequence.get(blockNumber).getX(0)].setBackground(Color.black);
             board[sequence.get(blockNumber).getY(1)][sequence.get(blockNumber).getX(1)].setBackground(Color.black);
@@ -399,8 +390,6 @@ public class PlayPanel extends JPanel {
             board[sequence.get(blockNumber).getY(1)][sequence.get(blockNumber).getX(1)].setBackground(sequence.get(blockNumber).getColor());
             board[sequence.get(blockNumber).getY(2)][sequence.get(blockNumber).getX(2)].setBackground(sequence.get(blockNumber).getColor());
             board[sequence.get(blockNumber).getY(3)][sequence.get(blockNumber).getX(3)].setBackground(sequence.get(blockNumber).getColor());
-         
-            
          }
          if(e.getKeyCode() == KeyEvent.VK_SPACE){
             board[sequence.get(blockNumber).getY(0)][sequence.get(blockNumber).getX(0)].setBackground(Color.black);
@@ -412,12 +401,8 @@ public class PlayPanel extends JPanel {
             board[sequence.get(blockNumber).getY(1)][sequence.get(blockNumber).getX(1)].setBackground(sequence.get(blockNumber).getColor());
             board[sequence.get(blockNumber).getY(2)][sequence.get(blockNumber).getX(2)].setBackground(sequence.get(blockNumber).getColor());
             board[sequence.get(blockNumber).getY(3)][sequence.get(blockNumber).getX(3)].setBackground(sequence.get(blockNumber).getColor());
-         
-            
          }
-      
-      
-      
+
       }
    }
    

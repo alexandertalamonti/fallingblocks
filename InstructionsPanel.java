@@ -1,7 +1,7 @@
 /*****************************************************************
-*InstructionsPanel is the panel that contains the rules of the 
-*game and gives examples of how the game works
-*@authors Aadith Charugundla, Alexander Talamonti, Julian Gavino
+* InstructionsPanel is the panel that contains the rules of the 
+* game and gives examples of how the game works
+* @author Aadith Charugundla, Alexander Talamonti, Julian Gavino
 ******************************************************************/
 
 //imports
@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.image.*;
 import java.net.URL;
 import javax.sound.sampled.*;
 import java.io.*; 
@@ -36,11 +35,8 @@ public class InstructionsPanel extends JPanel {
       try{
          infile = new Scanner(new File("savedata.txt"));
       }
-       catch(FileNotFoundException e)
-      {
-         
-      }         
-                           
+      catch(FileNotFoundException e){}         
+
       String saveTheme = infile.nextLine();  
       int currentVolume = Integer.parseInt(infile.nextLine()); 
          
@@ -132,8 +128,6 @@ public class InstructionsPanel extends JPanel {
       imgLabel2.setIcon(gifIcon2);
       gifPanel.add(imgLabel2); 
       
-      
-           
    }
    
    /*
@@ -156,7 +150,7 @@ public class InstructionsPanel extends JPanel {
    } 
    
     //paints the buffered-image
-    public void paintComponent(Graphics g) {
+   public void paintComponent(Graphics g) {
       g.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
    }
 

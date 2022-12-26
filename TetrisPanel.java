@@ -277,8 +277,6 @@ public class TetrisPanel extends JPanel {
          theFrame.setVisible(true);              
       }
    }
-   
-   
 
    /*****
    * OptionsListener is a listener that brings users to the optionsPanel when the how to options button is clicked

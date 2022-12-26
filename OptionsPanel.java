@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 import javax.swing.event.*; 
 import java.awt.event.*;
-import java.awt.image.*;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.io.*;      

@@ -1,7 +1,7 @@
 /*****************************************************************
-*CreditsPanel is the panel that contains all the citations for
-*the sources we used to create our game
-*@authors Aadith Charugundla, Alexander Talamonti, Julian Gavino
+* CreditsPanel is the panel that contains all the citations for
+* the sources we used to create our game
+* @author Aadith Charugundla, Alexander Talamonti, Julian Gavino
 ******************************************************************/
 
 //imports
@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.image.*;
 import java.net.URL;
 import javax.sound.sampled.*;
 import java.io.*; 
@@ -37,11 +36,7 @@ public class CreditsPanel extends JPanel {
          infile = new Scanner(new File("savedata.txt"));
       }
       //We need to fix this section so that if a user enters something that is invalid it will not let them continue
-      catch(FileNotFoundException e)
-      {
-         
-      }         
-                           
+      catch(FileNotFoundException e){}         
       
       
       String saveTheme = infile.nextLine();  //this has to be nextLine but we don't know why
@@ -130,7 +125,7 @@ public class CreditsPanel extends JPanel {
       }
    } 
     //paints the buffered-image
-    public void paintComponent(Graphics g) {
+   public void paintComponent(Graphics g) {
       g.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
    }
 
