@@ -15,8 +15,6 @@ public class TetrisDriver extends JFrame
    public static void main(String[] args) //main method
    {
       JFrame frame = new JFrame("Falling Blocks"); //creates a new frame with the title of "Falling Blocks"
-      frame.setSize(900, 900); //sets the size of the frame to 1200 by 1200 pixels
-      frame.setLocation(90,0); //sets the location of the frame on the screen
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //closes the frame 
       frame.setContentPane(new TetrisPanel(frame)); //sets TetrisPanel as the current content pane
       frame.setExtendedState(JFrame.MAXIMIZED_BOTH); //sets the frame so that it's maximized (full screen)

@@ -222,7 +222,7 @@ public class Tetromino {
    * A method that returns the ArrayList myLowestBlock
    * @return Returns the ArrayList of the lowest blocks in each Tetromino
    **********************************************************************/
-   public ArrayList getMyLowest() {
+   public ArrayList<Integer> getMyLowest() {
       return myLowestBlock;
    }
    

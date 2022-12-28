@@ -67,11 +67,12 @@ public class PlayPanel extends JPanel {
       scoresArray = new int[numItems]; 
       namesArray = new String[numItems];
       
-      for(int x = 0; x < numItems; x++)
-      {
-         scoresArray[x] = infile.nextInt(); 
-         namesArray[x] = infile.next(); 
-      }
+//       for(int x = 0; x < numItems; x++)
+//       {
+//          scoresArray[x] = infile.nextInt(); 
+//          namesArray[x] = infile.next(); 
+//          System.out.println("We get here");
+//       }
       infile.close();
       
       
@@ -475,6 +476,7 @@ public class PlayPanel extends JPanel {
                      break;
                   default: System.out.println("Something has gone wrong...");
                }
+
             } else if (theme.equalsIgnoreCase("Warm Theme")) {
                switch(sequencer) {
                   case 1: Color warmCol1 = new Color(255,192,107);

@@ -90,7 +90,7 @@ public class TetrisPanel extends JPanel {
          FloatControl gainControl = 
             (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
          gainControl.setValue(musicVolume); 
-         clip.start();
+         clip.loop(-1);
       
       } catch (UnsupportedAudioFileException e) {
          e.printStackTrace();
@@ -154,61 +154,49 @@ public class TetrisPanel extends JPanel {
          buffer.drawImage(titleDefault.getImage(), 75, 50, 1200, 700, null);
 
          playGame.setBackground(Color.RED.brighter()); 
-         playGame.setForeground(Color.WHITE);
          howToPlay.setBackground(Color.ORANGE);
-         howToPlay.setForeground(Color.WHITE);
          Options.setBackground(Color.GREEN);
-         Options.setForeground(Color.WHITE);
          Quit.setBackground(Color.BLUE.brighter());
-         Quit.setForeground(Color.WHITE);
          credits.setBackground(Color.MAGENTA);
-         credits.setForeground(Color.WHITE);
       }
       else if(saveTheme.equals("Cool Theme"))
       {
          buffer.drawImage(titleCool.getImage(), 75, 50, 1200, 700, null);
          
          playGame.setBackground(Color.CYAN);
-         playGame.setForeground(Color.WHITE);
          howToPlay.setBackground(Color.MAGENTA.darker());
-         howToPlay.setForeground(Color.WHITE);
          Options.setBackground(Color.BLUE);
-         Options.setForeground(Color.WHITE);
          Quit.setBackground(Color.GREEN.darker());
-         Quit.setForeground(Color.WHITE);
          credits.setBackground(Color.BLUE.darker());
-         credits.setForeground(Color.WHITE);
       }
       else if(saveTheme.equals("Warm Theme"))
       {
          buffer.drawImage(titleWarm.getImage(), 75, 50, 1200, 700, null);
          
          playGame.setBackground(Color.ORANGE);
-         playGame.setForeground(Color.WHITE);
          howToPlay.setBackground(Color.YELLOW.darker());
-         howToPlay.setForeground(Color.WHITE);
          Options.setBackground(Color.RED);
-         Options.setForeground(Color.WHITE);
          Quit.setBackground(Color.PINK.darker());
-         Quit.setForeground(Color.WHITE);
          credits.setBackground(Color.ORANGE.darker());
-         credits.setForeground(Color.WHITE);
       }
       else if(saveTheme.equals("Transparent Theme"))
       {
          buffer.drawImage(titleTransparent.getImage(), 75, 50, 1200, 700, null);
          
          playGame.setBackground(Color.BLACK);
-         playGame.setForeground(Color.WHITE);
          howToPlay.setBackground(Color.BLACK);
-         howToPlay.setForeground(Color.WHITE);
          Options.setBackground(Color.BLACK);
-         Options.setForeground(Color.WHITE);
          Quit.setBackground(Color.BLACK);
-         Quit.setForeground(Color.WHITE);
          credits.setBackground(Color.BLACK);
-         credits.setForeground(Color.WHITE);
       }
+      
+      playGame.setForeground(Color.WHITE);
+      howToPlay.setForeground(Color.WHITE);
+      Options.setForeground(Color.WHITE);
+      Quit.setForeground(Color.WHITE);
+      credits.setForeground(Color.WHITE);
+
+      
       playGame.addActionListener(new PlayListener(myFrame, saveTheme, musicVolume)); 
       mainMenu.add(playGame); 
 
