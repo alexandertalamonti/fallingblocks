@@ -28,6 +28,9 @@ public class TetrisPanel extends JPanel {
    private JPanel mainMenu; //create mainMenu JPanel
    public Clip clip; //create a Clip
    
+   private String[] buttonLabelList = {"Play Game", "How To Play", "Options", "Exit Game", "Credits"};
+   private String[] themes = {"Default", "Warm", "Cool", "Transparent"};
+   private JButton[] buttons = new JButton[5];
    
    /*****
    * TetrisPanel is the main menu 
@@ -119,98 +122,76 @@ public class TetrisPanel extends JPanel {
       //adding five buttons: Play Game, How to Play, Options, Quit, Credits. The appearance of the buttons changes based on theme
       // for Mac, you need to add setOpaque(true) and setBorderPainted(false) for some reason...
 
-      //play game
-      JButton playGame = new JButton("Play Game"); 
-      playGame.setFont(new Font("Monospaced", Font.BOLD, 40));
-      playGame.setOpaque(true);
-      playGame.setBorderPainted(false);
-
-      //instructions
-      JButton howToPlay = new JButton("How To Play"); 
-      howToPlay.setFont(new Font("Monospaced", Font.BOLD, 40));
-      howToPlay.setOpaque(true);
-      howToPlay.setBorderPainted(false);
-
-      //options
-      JButton Options = new JButton("Options"); 
-      Options.setFont(new Font("Monospaced", Font.BOLD, 40));
-      Options.setOpaque(true);
-      Options.setBorderPainted(false);
-
-      //Quit
-      JButton Quit = new JButton("Exit Game"); 
-      Quit.setFont(new Font("Monospaced", Font.BOLD, 40));
-      Quit.setOpaque(true);
-      Quit.setBorderPainted(false);
-
-      //Credits
-      JButton credits = new JButton("Credits"); 
-      credits.setFont(new Font("Monospaced", Font.BOLD, 40));
-      credits.setOpaque(true);
-      credits.setBorderPainted(false);
+      // Create each game button
+      for (int i = 0; i < buttonLabelList.length; i++) {
+         buttons[i] = new JButton(buttonLabelList[i]);
+         buttons[i].setFont(new Font("Monospaced", Font.BOLD, 40));
+         buttons[i].setOpaque(true);
+         buttons[i].setBorderPainted(false);
+      }
 
       if(saveTheme.equals("Default Theme"))
       {
          buffer.drawImage(titleDefault.getImage(), 75, 50, 1200, 700, null);
 
-         playGame.setBackground(Color.RED.brighter()); 
-         howToPlay.setBackground(Color.ORANGE);
-         Options.setBackground(Color.GREEN);
-         Quit.setBackground(Color.BLUE.brighter());
-         credits.setBackground(Color.MAGENTA);
+         buttons[0].setBackground(Color.RED.brighter()); 
+         buttons[1].setBackground(Color.ORANGE);
+         buttons[2].setBackground(Color.GREEN);
+         buttons[3].setBackground(Color.BLUE.brighter());
+         buttons[4].setBackground(Color.MAGENTA);
       }
       else if(saveTheme.equals("Cool Theme"))
       {
          buffer.drawImage(titleCool.getImage(), 75, 50, 1200, 700, null);
          
-         playGame.setBackground(Color.CYAN);
-         howToPlay.setBackground(Color.MAGENTA.darker());
-         Options.setBackground(Color.BLUE);
-         Quit.setBackground(Color.GREEN.darker());
-         credits.setBackground(Color.BLUE.darker());
+         buttons[0].setBackground(Color.CYAN);
+         buttons[1].setBackground(Color.MAGENTA.darker());
+         buttons[2].setBackground(Color.BLUE);
+         buttons[3].setBackground(Color.GREEN.darker());
+         buttons[4].setBackground(Color.BLUE.darker());
       }
       else if(saveTheme.equals("Warm Theme"))
       {
          buffer.drawImage(titleWarm.getImage(), 75, 50, 1200, 700, null);
          
-         playGame.setBackground(Color.ORANGE);
-         howToPlay.setBackground(Color.YELLOW.darker());
-         Options.setBackground(Color.RED);
-         Quit.setBackground(Color.PINK.darker());
-         credits.setBackground(Color.ORANGE.darker());
+         buttons[0].setBackground(Color.ORANGE);
+         buttons[1].setBackground(Color.YELLOW.darker());
+         buttons[2].setBackground(Color.RED);
+         buttons[3].setBackground(Color.PINK.darker());
+         buttons[4].setBackground(Color.ORANGE.darker());
       }
       else if(saveTheme.equals("Transparent Theme"))
       {
          buffer.drawImage(titleTransparent.getImage(), 75, 50, 1200, 700, null);
          
-         playGame.setBackground(Color.BLACK);
-         howToPlay.setBackground(Color.BLACK);
-         Options.setBackground(Color.BLACK);
-         Quit.setBackground(Color.BLACK);
-         credits.setBackground(Color.BLACK);
+         buttons[0].setBackground(Color.BLACK);
+         buttons[1].setBackground(Color.BLACK);
+         buttons[2].setBackground(Color.BLACK);
+         buttons[3].setBackground(Color.BLACK);
+         buttons[4].setBackground(Color.BLACK);
       }
       
-      playGame.setForeground(Color.WHITE);
-      howToPlay.setForeground(Color.WHITE);
-      Options.setForeground(Color.WHITE);
-      Quit.setForeground(Color.WHITE);
-      credits.setForeground(Color.WHITE);
+      buttons[0].setForeground(Color.WHITE);
+      buttons[1].setForeground(Color.WHITE);
+      buttons[2].setForeground(Color.WHITE);
+      buttons[3].setForeground(Color.WHITE);
+      buttons[4].setForeground(Color.WHITE);
 
       
-      playGame.addActionListener(new PlayListener(myFrame, saveTheme, musicVolume)); 
-      mainMenu.add(playGame); 
+      buttons[0].addActionListener(new PlayListener(myFrame, saveTheme, musicVolume)); 
+      mainMenu.add(buttons[0]); 
 
-      howToPlay.addActionListener(new HowToPlayListener(myFrame)); 
-      mainMenu.add(howToPlay);
+      buttons[1].addActionListener(new HowToPlayListener(myFrame)); 
+      mainMenu.add(buttons[1]);
 
-      Options.addActionListener(new OptionsListener(myFrame)); 
-      mainMenu.add(Options);
+      buttons[2].addActionListener(new OptionsListener(myFrame)); 
+      mainMenu.add(buttons[2]);
       
-      Quit.addActionListener(new QuitListener()); 
-      mainMenu.add(Quit);
+      buttons[3].addActionListener(new QuitListener()); 
+      mainMenu.add(buttons[3]);
 
-      credits.addActionListener(new CreditsListener(myFrame)); 
-      mainMenu.add(credits);
+      buttons[4].addActionListener(new CreditsListener(myFrame)); 
+      mainMenu.add(buttons[4]);
    }
 
    //paints the buffered-image
