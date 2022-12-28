@@ -29,7 +29,7 @@ public class TetrisPanel extends JPanel {
    public Clip clip; //create a Clip
    
    private String[] buttonLabelList = {"Play Game", "How To Play", "Options", "Exit Game", "Credits"};
-   private String[] themes = {"Default", "Warm", "Cool", "Transparent"};
+   private String[] themes = {"Default", "Cool", "Warm", "Transparent"};
    private JButton[] buttons = new JButton[5];
    
    /*****
@@ -43,24 +43,14 @@ public class TetrisPanel extends JPanel {
          infile = new Scanner(new File("savedata.txt"));
       }
       catch(FileNotFoundException e){
-         JOptionPane.showMessageDialog(null,"It looks like we couldn't access your saved preferences. Let's create a new save file.");
-         String firstTheme = JOptionPane.showInputDialog("What Theme?\nDefault Theme\nWarm Theme\nCool Theme\nTransparent Theme\n");
-         while(!firstTheme.equalsIgnoreCase("Default Theme") && !firstTheme.equalsIgnoreCase("Cool Theme") && !firstTheme.equalsIgnoreCase("Warm Theme") &&
-            !firstTheme.equalsIgnoreCase("Transparent")&&!firstTheme.equalsIgnoreCase("Default") && !firstTheme.equalsIgnoreCase("Cool") && !firstTheme.equalsIgnoreCase("Warm") && 
-            !firstTheme.equalsIgnoreCase("Transparent")) {
-
-            firstTheme = JOptionPane.showInputDialog("That's not a valid choice!\nWhat Theme?\nDefault Theme\nWarm Theme\nCool Theme\nTransparent Theme\n");
-         }
-         JOptionPane.showMessageDialog(null, "We are setting your default volume to 50 (recommended). You can change this later in the options page.");
-         int firstVolume = 50;
       
          File firstSave = new File("savedata.txt");
          PrintStream newSaveFile = null;
          try
          {
             newSaveFile = new PrintStream("savedata.txt");
-            newSaveFile.println(firstTheme);
-            newSaveFile.println(firstVolume);
+            newSaveFile.println("Default Theme");
+            newSaveFile.println(50);
             infile = new Scanner(firstSave);  
          }
          catch (FileNotFoundException f)
@@ -93,7 +83,6 @@ public class TetrisPanel extends JPanel {
          FloatControl gainControl = 
             (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
          gainControl.setValue(musicVolume); 
-         clip.loop(-1);
       
       } catch (UnsupportedAudioFileException e) {
          e.printStackTrace();
@@ -181,16 +170,16 @@ public class TetrisPanel extends JPanel {
       buttons[0].addActionListener(new PlayListener(myFrame, saveTheme, musicVolume)); 
       mainMenu.add(buttons[0]); 
 
-      buttons[1].addActionListener(new HowToPlayListener(myFrame)); 
+      buttons[1].addActionListener(new SwitchListener(myFrame, new InstructionsPanel(myFrame))); 
       mainMenu.add(buttons[1]);
 
-      buttons[2].addActionListener(new OptionsListener(myFrame)); 
+      buttons[2].addActionListener(new SwitchListener(myFrame, new OptionsPanel(myFrame))); 
       mainMenu.add(buttons[2]);
       
       buttons[3].addActionListener(new QuitListener()); 
       mainMenu.add(buttons[3]);
 
-      buttons[4].addActionListener(new CreditsListener(myFrame)); 
+      buttons[4].addActionListener(new SwitchListener(myFrame, new CreditsPanel(myFrame))); 
       mainMenu.add(buttons[4]);
    }
 
@@ -217,7 +206,6 @@ public class TetrisPanel extends JPanel {
    
       public void actionPerformed(ActionEvent e)
       {  
-         clip.stop(); 
          PlayPanel game = new PlayPanel(theFrame, myTheme, musVolume);
          KeyAdapter myKey = game.getKey();
          //The frame got the keys and that was not passed onto the panel. In order for it to work he had to add a keyListener to both the frame and the play panel.
@@ -233,51 +221,17 @@ public class TetrisPanel extends JPanel {
    /*****
    * HowToPlayListener is a listener that brings users to the instructionsPanel when the how to play button is clicked
    ******/
-   private class HowToPlayListener implements ActionListener
+   private class SwitchListener implements ActionListener
    {
       private JFrame theFrame;
-      public HowToPlayListener(JFrame frame) {
+      private JPanel thePanel;
+      public SwitchListener(JFrame frame, JPanel panel) {
          theFrame = frame;
+         thePanel = panel;
       }
       public void actionPerformed(ActionEvent e)
       {  
-         clip.stop(); 
-         theFrame.setContentPane(new InstructionsPanel(theFrame));
-         theFrame.setVisible(true);              
-      }
-   }
-
-   /*****
-   * OptionsListener is a listener that brings users to the optionsPanel when the how to options button is clicked
-   ******/
-   private class OptionsListener implements ActionListener
-   {
-      private JFrame theFrame;
-      public OptionsListener(JFrame frame) {
-         theFrame = frame;
-      }
-      public void actionPerformed(ActionEvent e)
-      {
-         clip.stop();
-         theFrame.setContentPane(new OptionsPanel(theFrame));
-         theFrame.setVisible(true);   
-      
-      }
-   }
-   
-   /*****
-   * CreditsListener is a listener that brings users to the creditsPanel when the how to credits button is clicked
-   ******/
-   private class CreditsListener implements ActionListener
-   {
-      private JFrame theFrame;
-      public CreditsListener(JFrame frame) {
-         theFrame = frame;
-      }
-      public void actionPerformed(ActionEvent e)
-      {   
-         clip.stop();
-         theFrame.setContentPane(new CreditsPanel(theFrame));
+         theFrame.setContentPane(thePanel);
          theFrame.setVisible(true);              
       }
    }

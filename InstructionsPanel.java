@@ -10,17 +10,13 @@ import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import java.awt.event.*;
-import java.net.URL;
-import javax.sound.sampled.*;
-import java.io.*; 
-import java.util.*; 
+
 
 
 public class InstructionsPanel extends JPanel {
    private static final ImageIcon background = new ImageIcon("Tetris Background.png");
    private BufferedImage myImage;
    private Graphics buffer; 
-   public Clip clip;
    
    /*
    *InstructionsPanel is the panel that will hold all the instructions of the game
@@ -30,48 +26,6 @@ public class InstructionsPanel extends JPanel {
       //sets the layout of instructionsPanel
       setLayout(new BorderLayout());
       
-      //Scans savedata.txt so that it can get the music volume
-      Scanner infile = null;
-      try{
-         infile = new Scanner(new File("savedata.txt"));
-      }
-      catch(FileNotFoundException e){}         
-
-      String saveTheme = infile.nextLine();  
-      int currentVolume = Integer.parseInt(infile.nextLine()); 
-         
-      infile.close(); //closes the Scanner
-   
-      float musicVolume = 0 - ((100 - currentVolume) * 4 / 5); 
-      
-      //checks for TetrisTheme.wav and converts it into a Clip
-      try {
-         // Open an audio input stream.
-         
-         URL url = this.getClass().getClassLoader().getResource("TetrisTheme.wav");
-         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-            
-         // Get a sound clip resource.
-         clip = AudioSystem.getClip();
-      
-      
-         // Open audio clip and load samples from the audio input stream.
-         clip.open(audioIn);
-         FloatControl gainControl = 
-            (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-         gainControl.setValue(musicVolume); 
-         clip.start();
-      
-      } catch (UnsupportedAudioFileException e) {
-         e.printStackTrace();
-      } 
-      catch (IOException f) {
-         f.printStackTrace();
-      } 
-      catch (LineUnavailableException e) {
-         e.printStackTrace();
-      }
-
       //creates a buffer and draws an iamge on it
       myImage = new BufferedImage(1200, 1200, BufferedImage.TYPE_INT_RGB);
       buffer = myImage.getGraphics();
@@ -143,7 +97,6 @@ public class InstructionsPanel extends JPanel {
       
       public void actionPerformed(ActionEvent e)
       {
-         clip.stop(); 
          theFrame.setContentPane(new TetrisPanel(theFrame));
          theFrame.setVisible(true);  
       }

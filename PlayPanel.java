@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.io.*; 
 import java.util.*; 
 import javax.swing.JOptionPane;
-import java.net.URL;
-import javax.sound.sampled.*;
 
 
 public class PlayPanel extends JPanel {
@@ -33,7 +31,6 @@ public class PlayPanel extends JPanel {
    private static int numItems = 0;  
    private JLabel scoreLabel2; 
    private JLabel[] labelArray; //creates a JLabel array that will store labels for the leaderboard
-   public Clip clip;
 
    /***
    * PlayPanel is the panel that will hold the game and the leaderboard
@@ -67,43 +64,12 @@ public class PlayPanel extends JPanel {
       scoresArray = new int[numItems]; 
       namesArray = new String[numItems];
       
-//       for(int x = 0; x < numItems; x++)
-//       {
-//          scoresArray[x] = infile.nextInt(); 
-//          namesArray[x] = infile.next(); 
-//          System.out.println("We get here");
-//       }
-      infile.close();
-      
-      
-      
-      //checks for TetrisTheme.wav and turns it into a Clip
-      try {
-         // Open an audio input stream.
-         
-         URL url = this.getClass().getClassLoader().getResource("TetrisTheme.wav");
-         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-            
-         // Get a sound clip resource.
-         clip = AudioSystem.getClip();
-      
-      
-         // Open audio clip and load samples from the audio input stream.
-         clip.open(audioIn); 
-         FloatControl gainControl = 
-            (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-         gainControl.setValue((musVolume)); 
-         clip.start();
-      
-      } catch (UnsupportedAudioFileException e) {
-         e.printStackTrace();
-      } 
-      catch (IOException f) {
-         f.printStackTrace();
-      } 
-      catch (LineUnavailableException e) {
-         e.printStackTrace();
+      for(int x = 0; x < numItems; x++)
+      {
+         scoresArray[x] = infile.nextInt(); 
+         namesArray[x] = infile.next(); 
       }
+      infile.close();
       
       //sets the layout of PlayPanel
       setLayout(new BorderLayout());
