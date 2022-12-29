@@ -38,7 +38,7 @@ public class PlayPanel extends JPanel {
    * @param theme the appearance of the tetrominos
    * @param musVolume the volume of the song
    ***/
-   public PlayPanel(JFrame myFrame, String theme, float musVolume) {
+   public PlayPanel(JFrame myFrame, String theme) {
       
       //creates a Scanner object that will check TetrisScores.txt and will create one if it doesn't exist
       Scanner infile = null;
@@ -154,99 +154,99 @@ public class PlayPanel extends JPanel {
       // we create the very first block in the constructor so the program doesn't bug the hell out
       sequencer = (int)(Math.random() * 7 + 1);
       prevBlock = sequencer;
-      if(theme.equalsIgnoreCase("Default Theme")) {
+      if(theme.equalsIgnoreCase("Default")) {
          switch(sequencer) {
-            case 1: sequence.add(new IPiece(0, 0, Color.CYAN, "Ipiece")); 
+            case 1: sequence.add(new IPiece(4, 0, Color.CYAN, "Ipiece")); 
                break;
-            case 2: sequence.add(new OPiece(0, 0, Color.MAGENTA, "Opiece")); 
+            case 2: sequence.add(new OPiece(4, 0, Color.MAGENTA, "Opiece")); 
                break;
-            case 3: sequence.add(new LPiece(0, 0, Color.BLUE, "Lpiece")); 
+            case 3: sequence.add(new LPiece(4, 0, Color.BLUE, "Lpiece")); 
                break;
-            case 4: sequence.add(new JPiece(0, 2, Color.GREEN, "Jpiece")); 
+            case 4: sequence.add(new JPiece(4, 2, Color.GREEN, "Jpiece")); 
                break;
-            case 5: sequence.add(new SPiece(0, 0, Color.YELLOW, "Spiece")); 
+            case 5: sequence.add(new SPiece(4, 0, Color.YELLOW, "Spiece")); 
                break;
-            case 6: sequence.add(new ZPiece(0, 1, Color.ORANGE, "Zpiece")); 
+            case 6: sequence.add(new ZPiece(4, 1, Color.ORANGE, "Zpiece")); 
                break;
-            case 7: sequence.add(new TPiece(0, 1, Color.RED, "Tpiece")); 
+            case 7: sequence.add(new TPiece(4, 1, Color.RED, "Tpiece")); 
                break;
             default: System.out.println("Something has gone wrong...");
          }
 
-      } else if (theme.equalsIgnoreCase("Warm Theme")) {
+      } else if (theme.equalsIgnoreCase("Warm")) {
          switch(sequencer) {
             case 1: Color warmCol1 = new Color(255,192,107);
-               sequence.add(new IPiece(0, 0, warmCol1, "Ipiece-warm")); 
+               sequence.add(new IPiece(4, 0, warmCol1, "Ipiece-warm")); 
                break;
             case 2: Color warmCol2 = new Color(255,114,38);
-               sequence.add(new OPiece(0, 0, warmCol2, "Opiece-warm")); 
+               sequence.add(new OPiece(4, 0, warmCol2, "Opiece-warm")); 
                break;
             case 3: Color warmCol3 = new Color(229, 44, 44);
-               sequence.add(new LPiece(0, 0, warmCol3, "Lpiece-warm")); 
+               sequence.add(new LPiece(4, 0, warmCol3, "Lpiece-warm")); 
                break;
             case 4: Color warmCol4 = new Color(255, 2, 158); 
-               sequence.add(new JPiece(0, 2, warmCol4, "Jpiece-warm")); 
+               sequence.add(new JPiece(4, 2, warmCol4, "Jpiece-warm")); 
                break;
             case 5: 
-               sequence.add(new SPiece(0, 0, Color.YELLOW, "Spiece-warm")); 
+               sequence.add(new SPiece(4, 0, Color.YELLOW, "Spiece-warm")); 
                break;
             case 6: Color warmCol6 = new Color(255, 214, 0);
-               sequence.add(new ZPiece(0, 1, warmCol6, "Zpiece-warm")); 
+               sequence.add(new ZPiece(4, 1, warmCol6, "Zpiece-warm")); 
                break;
             case 7: Color warmCol7 = new Color(204, 162, 0);
-               sequence.add(new TPiece(0, 1, warmCol7, "Tpiece-warm")); 
+               sequence.add(new TPiece(4, 1, warmCol7, "Tpiece-warm")); 
                break;
             default: System.out.println("Something has gone wrong...");
          }
          
-      } else if (theme.equalsIgnoreCase("Cool Theme")) {
+      } else if (theme.equalsIgnoreCase("Cool")) {
          switch(sequencer) {
             case 1: Color coolCol1 = new Color(197,75,244);
-               sequence.add(new IPiece(0, 0, coolCol1, "Ipiece-cool")); 
+               sequence.add(new IPiece(4, 0, coolCol1, "Ipiece-cool")); 
                break;
             case 2: Color coolCol2 = new Color(4,7,124);
-               sequence.add(new OPiece(0, 0, coolCol2, "Opiece-cool")); 
+               sequence.add(new OPiece(4, 0, coolCol2, "Opiece-cool")); 
                break;
             case 3: Color coolCol3 = new Color(0, 0, 255);
-               sequence.add(new LPiece(0, 0, coolCol3, "Lpiece-cool")); 
+               sequence.add(new LPiece(4, 0, coolCol3, "Lpiece-cool")); 
                break;
             case 4: Color coolCol4 = new Color(85,26,139); 
-               sequence.add(new JPiece(0, 2, coolCol4, "Jpiece-cool")); 
+               sequence.add(new JPiece(4, 2, coolCol4, "Jpiece-cool")); 
                break;
             case 5: Color coolCol5 = new Color(7,148,148);
-               sequence.add(new SPiece(0, 0, coolCol5, "Spiece-cool")); 
+               sequence.add(new SPiece(4, 0, coolCol5, "Spiece-cool")); 
                break;
             case 6: Color coolCol6 = new Color(24,165,66);
-               sequence.add(new ZPiece(0, 1, coolCol6, "Zpiece-cool")); 
+               sequence.add(new ZPiece(4, 1, coolCol6, "Zpiece-cool")); 
                break;
             case 7: Color coolCol7 = new Color(75,244,169);
-               sequence.add(new TPiece(0, 1, coolCol7, "Tpiece-cool")); 
+               sequence.add(new TPiece(4, 1, coolCol7, "Tpiece-cool")); 
                break;
             default: System.out.println("Something has gone wrong...");
          }
          
-      } else if (theme.equalsIgnoreCase("Transparent Theme")) {
+      } else if (theme.equalsIgnoreCase("Transparent")) {
          switch(sequencer) {
             case 1:
-               sequence.add(new IPiece(0, 0, Color.WHITE, "Ipiece-transparent")); 
+               sequence.add(new IPiece(4, 0, Color.WHITE, "Ipiece-transparent")); 
                break;
             case 2: 
-               sequence.add(new OPiece(0, 0, Color.WHITE, "Opiece-transparent")); 
+               sequence.add(new OPiece(4, 0, Color.WHITE, "Opiece-transparent")); 
                break;
             case 3: 
-               sequence.add(new LPiece(0, 0, Color.WHITE, "Lpiece-transparent")); 
+               sequence.add(new LPiece(4, 0, Color.WHITE, "Lpiece-transparent")); 
                break;
             case 4: 
-               sequence.add(new JPiece(0, 2, Color.WHITE, "Jpiece-transparent")); 
+               sequence.add(new JPiece(4, 2, Color.WHITE, "Jpiece-transparent")); 
                break;
             case 5: 
-               sequence.add(new SPiece(0, 0, Color.WHITE, "Spiece-transparent")); 
+               sequence.add(new SPiece(4, 0, Color.WHITE, "Spiece-transparent")); 
                break;
             case 6: 
-               sequence.add(new ZPiece(0, 1, Color.WHITE, "Zpiece-transparent")); 
+               sequence.add(new ZPiece(4, 1, Color.WHITE, "Zpiece-transparent")); 
                break;
             case 7: 
-               sequence.add(new TPiece(0, 1, Color.WHITE, "Tpiece-transparent")); 
+               sequence.add(new TPiece(4, 1, Color.WHITE, "Tpiece-transparent")); 
                break;
             default: System.out.println("Something has gone wrong...");
          } 
@@ -424,99 +424,99 @@ public class PlayPanel extends JPanel {
          
             grabBag.set(n, sequencer);
          
-            if(theme.equalsIgnoreCase("Default Theme")) {
+            if(theme.equalsIgnoreCase("Default")) {
                switch(sequencer) {
-                  case 1: sequence.add(new IPiece(0, 0, Color.CYAN, "Ipiece")); 
+                  case 1: sequence.add(new IPiece(4, 0, Color.CYAN, "Ipiece")); 
                      break;
-                  case 2: sequence.add(new OPiece(0, 0, Color.MAGENTA, "Opiece")); 
+                  case 2: sequence.add(new OPiece(4, 0, Color.MAGENTA, "Opiece")); 
                      break;
-                  case 3: sequence.add(new LPiece(0, 0, Color.BLUE, "Lpiece")); 
+                  case 3: sequence.add(new LPiece(4, 0, Color.BLUE, "Lpiece")); 
                      break;
-                  case 4: sequence.add(new JPiece(0, 2, Color.GREEN, "Jpiece")); 
+                  case 4: sequence.add(new JPiece(4, 2, Color.GREEN, "Jpiece")); 
                      break;
-                  case 5: sequence.add(new SPiece(0, 0, Color.YELLOW, "Spiece")); 
+                  case 5: sequence.add(new SPiece(4, 0, Color.YELLOW, "Spiece")); 
                      break;
-                  case 6: sequence.add(new ZPiece(0, 1, Color.ORANGE, "Zpiece")); 
+                  case 6: sequence.add(new ZPiece(4, 1, Color.ORANGE, "Zpiece")); 
                      break;
-                  case 7: sequence.add(new TPiece(0, 1, Color.RED, "Tpiece")); 
+                  case 7: sequence.add(new TPiece(4, 1, Color.RED, "Tpiece")); 
                      break;
                   default: System.out.println("Something has gone wrong...");
                }
 
-            } else if (theme.equalsIgnoreCase("Warm Theme")) {
+            } else if (theme.equalsIgnoreCase("Warm")) {
                switch(sequencer) {
                   case 1: Color warmCol1 = new Color(255,192,107);
-                     sequence.add(new IPiece(0, 0, warmCol1, "Ipiece-warm")); 
+                     sequence.add(new IPiece(4, 0, warmCol1, "Ipiece-warm")); 
                      break;
                   case 2: Color warmCol2 = new Color(255,114,38);
-                     sequence.add(new OPiece(0, 0, warmCol2, "Opiece-warm")); 
+                     sequence.add(new OPiece(4, 0, warmCol2, "Opiece-warm")); 
                      break;
                   case 3: Color warmCol3 = new Color(229, 44, 44);
-                     sequence.add(new LPiece(0, 0, warmCol3, "Lpiece-warm")); 
+                     sequence.add(new LPiece(4, 0, warmCol3, "Lpiece-warm")); 
                      break;
                   case 4: Color warmCol4 = new Color(255, 2, 158); 
-                     sequence.add(new JPiece(0, 2, warmCol4, "Jpiece-warm")); 
+                     sequence.add(new JPiece(4, 2, warmCol4, "Jpiece-warm")); 
                      break;
                   case 5: 
-                     sequence.add(new SPiece(0, 0, Color.YELLOW, "Spiece-warm")); 
+                     sequence.add(new SPiece(4, 0, Color.YELLOW, "Spiece-warm")); 
                      break;
                   case 6: Color warmCol6 = new Color(255, 214, 0);
-                     sequence.add(new ZPiece(0, 1, warmCol6, "Zpiece-warm")); 
+                     sequence.add(new ZPiece(4, 1, warmCol6, "Zpiece-warm")); 
                      break;
                   case 7: Color warmCol7 = new Color(204, 162, 0);
-                     sequence.add(new TPiece(0, 1, warmCol7, "Tpiece-warm")); 
+                     sequence.add(new TPiece(4, 1, warmCol7, "Tpiece-warm")); 
                      break;
                   default: System.out.println("Something has gone wrong...");
                }
             
-            } else if (theme.equalsIgnoreCase("Cool Theme")) {
+            } else if (theme.equalsIgnoreCase("Cool")) {
                switch(sequencer) {
                   case 1: Color coolCol1 = new Color(197,75,244);
-                     sequence.add(new IPiece(0, 0, coolCol1, "Ipiece-cool")); 
+                     sequence.add(new IPiece(4, 0, coolCol1, "Ipiece-cool")); 
                      break;
                   case 2: Color coolCol2 = new Color(4,7,124);
-                     sequence.add(new OPiece(0, 0, coolCol2, "Opiece-cool")); 
+                     sequence.add(new OPiece(4, 0, coolCol2, "Opiece-cool")); 
                      break;
                   case 3: Color coolCol3 = new Color(0, 0, 255);
-                     sequence.add(new LPiece(0, 0, coolCol3, "Lpiece-cool")); 
+                     sequence.add(new LPiece(4, 0, coolCol3, "Lpiece-cool")); 
                      break;
                   case 4: Color coolCol4 = new Color(85,26,139); 
-                     sequence.add(new JPiece(0, 2, coolCol4, "Jpiece-cool")); 
+                     sequence.add(new JPiece(4, 2, coolCol4, "Jpiece-cool")); 
                      break;
                   case 5: Color coolCol5 = new Color(7,148,148);
-                     sequence.add(new SPiece(0, 0, coolCol5, "Spiece-cool")); 
+                     sequence.add(new SPiece(4, 0, coolCol5, "Spiece-cool")); 
                      break;
                   case 6: Color coolCol6 = new Color(24,165,66);
-                     sequence.add(new ZPiece(0, 1, coolCol6, "Zpiece-cool")); 
+                     sequence.add(new ZPiece(4, 1, coolCol6, "Zpiece-cool")); 
                      break;
                   case 7: Color coolCol7 = new Color(75,244,169);
-                     sequence.add(new TPiece(0, 1, coolCol7, "Tpiece-cool")); 
+                     sequence.add(new TPiece(4, 1, coolCol7, "Tpiece-cool")); 
                      break;
                   default: System.out.println("Something has gone wrong...");
                }
             
-            } else if (theme.equalsIgnoreCase("Transparent Theme")) {
+            } else if (theme.equalsIgnoreCase("Transparent")) {
                switch(sequencer) {
                   case 1:
-                     sequence.add(new IPiece(0, 0, Color.WHITE, "Ipiece-transparent")); 
+                     sequence.add(new IPiece(4, 0, Color.WHITE, "Ipiece-transparent")); 
                      break;
                   case 2: 
-                     sequence.add(new OPiece(0, 0, Color.WHITE, "Opiece-transparent")); 
+                     sequence.add(new OPiece(4, 0, Color.WHITE, "Opiece-transparent")); 
                      break;
                   case 3: 
-                     sequence.add(new LPiece(0, 0, Color.WHITE, "Lpiece-transparent")); 
+                     sequence.add(new LPiece(4, 0, Color.WHITE, "Lpiece-transparent")); 
                      break;
                   case 4: 
-                     sequence.add(new JPiece(0, 2, Color.WHITE, "Jpiece-transparent")); 
+                     sequence.add(new JPiece(4, 2, Color.WHITE, "Jpiece-transparent")); 
                      break;
                   case 5: 
-                     sequence.add(new SPiece(0, 0, Color.WHITE, "Spiece-transparent")); 
+                     sequence.add(new SPiece(4, 0, Color.WHITE, "Spiece-transparent")); 
                      break;
                   case 6: 
-                     sequence.add(new ZPiece(0, 1, Color.WHITE, "Zpiece-transparent")); 
+                     sequence.add(new ZPiece(4, 1, Color.WHITE, "Zpiece-transparent")); 
                      break;
                   case 7: 
-                     sequence.add(new TPiece(0, 1, Color.WHITE, "Tpiece-transparent")); 
+                     sequence.add(new TPiece(4, 1, Color.WHITE, "Tpiece-transparent")); 
                      break;
                   default: System.out.println("Something has gone wrong...");
                } 

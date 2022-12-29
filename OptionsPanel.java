@@ -14,8 +14,6 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.io.*;      
 import java.util.*;    
-import java.net.URL;
-import javax.sound.sampled.*;
 import javax.swing.*;
 
 
@@ -32,8 +30,6 @@ public class OptionsPanel extends JPanel {
    private Graphics buffer; //creating a Graphics object called buffer
    private JTextField volumeBox; //creating a JTextField called volumeBox
    private JSlider volumeSlider; //creating a JSlider called volumeSlider
- 
-   public Clip clip; //creating a Clip called clip
    
    /*
    *OptionsPanel is the panel that holds all the changable options
@@ -67,20 +63,19 @@ public class OptionsPanel extends JPanel {
                   
       //Defines 4 separate buttons for each possible theme   
       JRadioButton defaultButton = new JRadioButton("Default Theme");
-      defaultButton.addItemListener(new themeListener("Default Theme"));
-       
+      defaultButton.addItemListener(new themeListener("Default"));
       themePanel.add(defaultButton);
       
       JRadioButton warmButton = new JRadioButton("Warm Theme");
-      warmButton.addItemListener(new themeListener("Warm Theme"));
+      warmButton.addItemListener(new themeListener("Warm"));
       themePanel.add(warmButton);
       
       JRadioButton coolButton = new JRadioButton("Cool Theme");
-      coolButton.addItemListener(new themeListener("Cool Theme"));
+      coolButton.addItemListener(new themeListener("Cool"));
       themePanel.add(coolButton);
       
       JRadioButton transparentButton = new JRadioButton("Transparent Theme");
-      transparentButton.addItemListener(new themeListener("Transparent Theme"));
+      transparentButton.addItemListener(new themeListener("Transparent"));
       themePanel.add(transparentButton);
       
       //makes sure only one button can be activated at a time
@@ -96,26 +91,15 @@ public class OptionsPanel extends JPanel {
       try{
          infile = new Scanner(new File("savedata.txt"));
       }
-      catch(FileNotFoundException e)
-      {
-         JOptionPane.showMessageDialog(null,"It looks like we couldn't access your saved preferences. Let's create a new save file.");
-         String firstTheme = JOptionPane.showInputDialog("What Theme?\nDefault Theme\nWarm Theme\nCool Theme\nTransparent Theme\n");
-         while(!firstTheme.equalsIgnoreCase("Default Theme") && !firstTheme.equalsIgnoreCase("Cool Theme") && !firstTheme.equalsIgnoreCase("Warm Theme") &&
-             !firstTheme.equalsIgnoreCase("Transparent")&&!firstTheme.equalsIgnoreCase("Default") && !firstTheme.equalsIgnoreCase("Cool") && !firstTheme.equalsIgnoreCase("Warm") && 
-             !firstTheme.equalsIgnoreCase("Transparent")) {
-             
-            firstTheme = JOptionPane.showInputDialog("That's not a valid choice!\nWhat Theme?\nDefault Theme\nWarm Theme\nCool Theme\nTransparent Theme\n");
-         }
-         JOptionPane.showMessageDialog(null, "We are setting your default volume to 50 (recommended). You can change this later in the options page.");
-         int firstVolume = 50;
+      catch(FileNotFoundException e){
       
          File firstSave = new File("savedata.txt");
          PrintStream newSaveFile = null;
          try
          {
             newSaveFile = new PrintStream("savedata.txt");
-            newSaveFile.println(firstTheme);
-            newSaveFile.println(firstVolume);
+            newSaveFile.println("Default");
+            newSaveFile.println(50);
             infile = new Scanner(firstSave);  
          }
          catch (FileNotFoundException f)
@@ -130,37 +114,33 @@ public class OptionsPanel extends JPanel {
       
       //The Display pngs were created with help from piskellapp.com, an online image editor that lets users draw images pixel by pixel.
       //changes the image displayed based on the theme that was chosen.
-      if(saveTheme.equalsIgnoreCase("Default Theme") || saveTheme.equalsIgnoreCase("Default"))
+      if(saveTheme.equalsIgnoreCase("Default"))
       {
-         String defaultName = "defaultDisplay.png";
-         ImageIcon defaultIcon2 = new ImageIcon(defaultName);
+         ImageIcon defaultIcon2 = new ImageIcon("defaultDisplay.png");
          defaultIcon2.getImage().flush();
          imgLabel = new JLabel(defaultIcon2);
          previewPanel.add(imgLabel);
          defaultButton.setSelected(true);
       }
-      if(saveTheme.equalsIgnoreCase("Cool Theme")|| saveTheme.equalsIgnoreCase("Cool"))
+      if(saveTheme.equalsIgnoreCase("Cool"))
       {
-         String defaultName = "coolDisplay.png";
-         ImageIcon defaultIcon2 = new ImageIcon(defaultName);
+         ImageIcon defaultIcon2 = new ImageIcon("coolDisplay.png");
          defaultIcon2.getImage().flush();
          imgLabel = new JLabel(defaultIcon2);
          previewPanel.add(imgLabel);
          coolButton.setSelected(true);
       }
-      if(saveTheme.equalsIgnoreCase("Warm Theme")|| saveTheme.equalsIgnoreCase("Warm"))
+      if(saveTheme.equalsIgnoreCase("Warm"))
       {
-         String defaultName = "warmDisplay.png";
-         ImageIcon defaultIcon2 = new ImageIcon(defaultName);
+         ImageIcon defaultIcon2 = new ImageIcon("warmDisplay.png");
          defaultIcon2.getImage().flush();
          imgLabel = new JLabel(defaultIcon2);
          previewPanel.add(imgLabel);
          warmButton.setSelected(true);
       }
-      if(saveTheme.equalsIgnoreCase("Transparent Theme")|| saveTheme.equalsIgnoreCase("Transparent"))
+      if(saveTheme.equalsIgnoreCase("Transparent"))
       {
-         String defaultName = "transparentDisplay.png";
-         ImageIcon defaultIcon2 = new ImageIcon(defaultName);
+         ImageIcon defaultIcon2 = new ImageIcon("transparentDisplay.png");
          defaultIcon2.getImage().flush();
          imgLabel = new JLabel(defaultIcon2);
          previewPanel.add(imgLabel);
@@ -209,38 +189,6 @@ public class OptionsPanel extends JPanel {
       exitButton.addActionListener(new exitListener(myFrame));
       buttonControl.add(exitButton);
       infile.close(); 
-      
-      float musicVolume = 0 - ((100 - currentVolume) * 4 / 5); 
-      
-      //check for TetrisTheme.wav and make a Clip of it
-      try {
-         // Open an audio input stream.
-         
-         URL url = this.getClass().getClassLoader().getResource("TetrisTheme.wav");
-         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-            
-         // Get a sound clip resource.
-          clip = AudioSystem.getClip();
-      
-      
-         // Open audio clip and load samples from the audio input stream.
-         clip.open(audioIn); 
-         FloatControl gainControl = 
-    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-gainControl.setValue((musicVolume)); 
-         clip.start();
-      
-      } catch (UnsupportedAudioFileException e) {
-         e.printStackTrace();
-      } 
-      catch (IOException f) {
-         f.printStackTrace();
-      } 
-      catch (LineUnavailableException e) {
-         e.printStackTrace();
-      }
-   
-
 
    }
    
@@ -256,43 +204,29 @@ gainControl.setValue((musicVolume));
       }
       
       public void itemStateChanged(ItemEvent e) {
-                      
-         if(myTheme.equals("Warm Theme")) {
-            String warmName = "warmDisplay.png";
-            ImageIcon warmIcon = new ImageIcon(warmName);
+         if(myTheme.equals("Warm")) {
+            ImageIcon warmIcon = new ImageIcon("warmDisplay.png");
             warmIcon.getImage().flush();
             imgLabel.setIcon(warmIcon);
-            currentTheme = "Warm Theme";
-         
          }
          
-         else if(myTheme.equals("Cool Theme")) {
-         
-            String coolName = "coolDisplay.png";
-            ImageIcon coolIcon = new ImageIcon(coolName);
+         else if(myTheme.equals("Cool")) {
+            ImageIcon coolIcon = new ImageIcon("coolDisplay.png");
             coolIcon.getImage().flush();
             imgLabel.setIcon(coolIcon); 
-            currentTheme = "Cool Theme"; 
          }
          
-         else if(myTheme.equals("Transparent Theme")) {
-            String transparentName = "transparentDisplay.png";
-            ImageIcon transparentIcon = new ImageIcon(transparentName);
+         else if(myTheme.equals("Transparent")) {
+            ImageIcon transparentIcon = new ImageIcon("transparentDisplay.png");
             transparentIcon.getImage().flush();
             imgLabel.setIcon(transparentIcon);
-            currentTheme = "Transparent Theme"; 
          }
          else{
-         
-            String defaultName = "defaultDisplay.png";
-            ImageIcon defaultIcon = new ImageIcon(defaultName);
+            ImageIcon defaultIcon = new ImageIcon("defaultDisplay.png");
             defaultIcon.getImage().flush();
             imgLabel.setIcon(defaultIcon);
-            currentTheme = "Default Theme"; 
-         
          }
-      
-        
+         currentTheme = myTheme;
       }
    }
    
@@ -346,9 +280,7 @@ gainControl.setValue((musicVolume));
          theFrame = frame;
       }
       public void actionPerformed(ActionEvent e) {
-        clip.stop(); 
          theFrame.setContentPane(new TetrisPanel(theFrame));
-          
          theFrame.setVisible(true);
          
       }

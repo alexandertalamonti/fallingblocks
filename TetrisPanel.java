@@ -10,28 +10,30 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import java.awt.event.*;
-import java.net.URL;
 import javax.sound.sampled.*;
 import java.io.*; 
 import java.util.*; 
 
 public class TetrisPanel extends JPanel {
 
-   //create ImageIcons for the background and the titles at different themes
-   private static final ImageIcon background = new ImageIcon("Tetris Background.png"); 
-   private static final ImageIcon titleDefault = new ImageIcon("Title.png");
-   private static final ImageIcon titleCool = new ImageIcon("Title-Cool.png");
-   private static final ImageIcon titleWarm = new ImageIcon("Title-Warm.png");
-   private static final ImageIcon titleTransparent = new ImageIcon("Title-Transparent.png");
 
    private BufferedImage myImage; //create a new BufferedImage
    private JPanel mainMenu; //create mainMenu JPanel
-   public Clip clip; //create a Clip
+   public Clip music; //create a Clip
    
+   private static final ImageIcon background = new ImageIcon("Tetris Background.png"); 
+
+   // Initialize map to hold ImageIcons for each title
+   public Map<String, String> titles = Map.of(
+      "Default", "Title.png",
+      "Cool", "Title-Cool.png",
+      "Warm", "Title-Warm.png",
+      "Transparent", "Title-Transparent.png"
+   );
+
    private String[] buttonLabelList = {"Play Game", "How To Play", "Options", "Exit Game", "Credits"};
-   private String[] themes = {"Default", "Cool", "Warm", "Transparent"};
    private JButton[] buttons = new JButton[5];
-   
+
    /*****
    * TetrisPanel is the main menu 
    * @param myFrame the current frame
@@ -49,7 +51,7 @@ public class TetrisPanel extends JPanel {
          try
          {
             newSaveFile = new PrintStream("savedata.txt");
-            newSaveFile.println("Default Theme");
+            newSaveFile.println("Default");
             newSaveFile.println(50);
             infile = new Scanner(firstSave);  
          }
@@ -68,30 +70,28 @@ public class TetrisPanel extends JPanel {
       float musicVolume = 0 - ((100 - currentVolume) * 4 / 5); //create a new float that converts the numbers 1 to 100 to decibel values
       
       //checks for TetrisTheme.wav and creates a clip out of it
-      try {
-         // Open an audio input stream
+      if (music == null || !music.isRunning()) {
+         try {
+            // Open an audio input stream
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("TetrisTheme.wav"));
+            // Get a sound clip resource
+            music = AudioSystem.getClip();
+            // Open audio clip and load samples from the audio input stream
+            music.open(audioIn);
+            FloatControl gainControl = 
+               (FloatControl) music.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(musicVolume); 
+            music.loop(-1);
          
-         URL url = this.getClass().getClassLoader().getResource("TetrisTheme.wav");
-         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-            
-         // Get a sound clip resource
-         clip = AudioSystem.getClip();
-      
-      
-         // Open audio clip and load samples from the audio input stream
-         clip.open(audioIn);
-         FloatControl gainControl = 
-            (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-         gainControl.setValue(musicVolume); 
-      
-      } catch (UnsupportedAudioFileException e) {
-         e.printStackTrace();
-      } 
-      catch (IOException f) {
-         f.printStackTrace();
-      } 
-      catch (LineUnavailableException e) {
-         e.printStackTrace();
+         } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+         } 
+         catch (IOException f) {
+            f.printStackTrace();
+         } 
+         catch (LineUnavailableException e) {
+            e.printStackTrace();
+         }   
       }
       
       //creates a buffer and draws images on it based on what the theme is
@@ -119,40 +119,34 @@ public class TetrisPanel extends JPanel {
          buttons[i].setBorderPainted(false);
       }
 
-      if(saveTheme.equals("Default Theme"))
-      {
-         buffer.drawImage(titleDefault.getImage(), 75, 50, 1200, 700, null);
+      buffer.drawImage(new ImageIcon(titles.get(saveTheme)).getImage(), 75, 50, 1200, 700, null);
 
+      if(saveTheme.equals("Default"))
+      {
          buttons[0].setBackground(Color.RED.brighter()); 
          buttons[1].setBackground(Color.ORANGE);
          buttons[2].setBackground(Color.GREEN);
          buttons[3].setBackground(Color.BLUE.brighter());
          buttons[4].setBackground(Color.MAGENTA);
       }
-      else if(saveTheme.equals("Cool Theme"))
-      {
-         buffer.drawImage(titleCool.getImage(), 75, 50, 1200, 700, null);
-         
+      else if(saveTheme.equals("Cool"))
+      {         
          buttons[0].setBackground(Color.CYAN);
          buttons[1].setBackground(Color.MAGENTA.darker());
          buttons[2].setBackground(Color.BLUE);
          buttons[3].setBackground(Color.GREEN.darker());
          buttons[4].setBackground(Color.BLUE.darker());
       }
-      else if(saveTheme.equals("Warm Theme"))
-      {
-         buffer.drawImage(titleWarm.getImage(), 75, 50, 1200, 700, null);
-         
+      else if(saveTheme.equals("Warm"))
+      {         
          buttons[0].setBackground(Color.ORANGE);
          buttons[1].setBackground(Color.YELLOW.darker());
          buttons[2].setBackground(Color.RED);
          buttons[3].setBackground(Color.PINK.darker());
          buttons[4].setBackground(Color.ORANGE.darker());
       }
-      else if(saveTheme.equals("Transparent Theme"))
-      {
-         buffer.drawImage(titleTransparent.getImage(), 75, 50, 1200, 700, null);
-         
+      else if(saveTheme.equals("Transparent"))
+      {         
          buttons[0].setBackground(Color.BLACK);
          buttons[1].setBackground(Color.BLACK);
          buttons[2].setBackground(Color.BLACK);
@@ -160,27 +154,16 @@ public class TetrisPanel extends JPanel {
          buttons[4].setBackground(Color.BLACK);
       }
       
-      buttons[0].setForeground(Color.WHITE);
-      buttons[1].setForeground(Color.WHITE);
-      buttons[2].setForeground(Color.WHITE);
-      buttons[3].setForeground(Color.WHITE);
-      buttons[4].setForeground(Color.WHITE);
-
-      
-      buttons[0].addActionListener(new PlayListener(myFrame, saveTheme, musicVolume)); 
-      mainMenu.add(buttons[0]); 
-
+      buttons[0].addActionListener(new PlayListener(myFrame, saveTheme)); 
       buttons[1].addActionListener(new SwitchListener(myFrame, new InstructionsPanel(myFrame))); 
-      mainMenu.add(buttons[1]);
-
       buttons[2].addActionListener(new SwitchListener(myFrame, new OptionsPanel(myFrame))); 
-      mainMenu.add(buttons[2]);
-      
       buttons[3].addActionListener(new QuitListener()); 
-      mainMenu.add(buttons[3]);
-
       buttons[4].addActionListener(new SwitchListener(myFrame, new CreditsPanel(myFrame))); 
-      mainMenu.add(buttons[4]);
+
+      for (JButton button : buttons) {
+         button.setForeground(Color.WHITE);
+         mainMenu.add(button);
+      }
    }
 
    //paints the buffered-image
@@ -197,16 +180,14 @@ public class TetrisPanel extends JPanel {
    {
       private JFrame theFrame;
       private String myTheme;
-      private float musVolume; 
-      public PlayListener(JFrame frame, String theme, float vol) {
+      public PlayListener(JFrame frame, String theme) {
          theFrame = frame;
          myTheme = theme;
-         musVolume = vol; 
       }
    
       public void actionPerformed(ActionEvent e)
       {  
-         PlayPanel game = new PlayPanel(theFrame, myTheme, musVolume);
+         PlayPanel game = new PlayPanel(theFrame, myTheme);
          KeyAdapter myKey = game.getKey();
          //The frame got the keys and that was not passed onto the panel. In order for it to work he had to add a keyListener to both the frame and the play panel.
          theFrame.addKeyListener(myKey);
@@ -219,7 +200,7 @@ public class TetrisPanel extends JPanel {
    }
    
    /*****
-   * HowToPlayListener is a listener that brings users to the instructionsPanel when the how to play button is clicked
+   * SwitchListener is a listener that brings users to the other Panels when a button is clicked
    ******/
    private class SwitchListener implements ActionListener
    {
@@ -239,12 +220,7 @@ public class TetrisPanel extends JPanel {
    /*****
    * QuitListener is a listener that closes the program when the quit button is clicked
    ******/
-   private class QuitListener implements ActionListener
-   {
-      public void actionPerformed(ActionEvent e)
-      {
-         System.exit(0); 
-      }
+   private class QuitListener implements ActionListener {
+      public void actionPerformed(ActionEvent e) { System.exit(0); }
    } 
-
 }
