@@ -25,6 +25,9 @@ public class OptionsPanel extends JPanel {
    
    private static final ImageIcon background = new ImageIcon("Tetris Background.png"); //making an ImageIcon for the background
    
+   private String[] themes = {"Default", "Cool", "Warm", "Transparent"};
+   private JRadioButton[] radioButtons = new JRadioButton[4];
+
    private String currentTheme; //creating a String called currentTheme
    private BufferedImage myImage; //creating a BufferedImage called myImage
    private Graphics buffer; //creating a Graphics object called buffer
@@ -60,31 +63,17 @@ public class OptionsPanel extends JPanel {
       previewPanel.setBackground(Color.WHITE); 
       previewPanel.setOpaque(false);
       add(previewPanel, BorderLayout.CENTER); 
-                  
-      //Defines 4 separate buttons for each possible theme   
-      JRadioButton defaultButton = new JRadioButton("Default Theme");
-      defaultButton.addItemListener(new themeListener("Default"));
-      themePanel.add(defaultButton);
       
-      JRadioButton warmButton = new JRadioButton("Warm Theme");
-      warmButton.addItemListener(new themeListener("Warm"));
-      themePanel.add(warmButton);
-      
-      JRadioButton coolButton = new JRadioButton("Cool Theme");
-      coolButton.addItemListener(new themeListener("Cool"));
-      themePanel.add(coolButton);
-      
-      JRadioButton transparentButton = new JRadioButton("Transparent Theme");
-      transparentButton.addItemListener(new themeListener("Transparent"));
-      themePanel.add(transparentButton);
-      
-      //makes sure only one button can be activated at a time
       ButtonGroup themeGroup = new ButtonGroup(); 
-      themeGroup.add(defaultButton);
-      themeGroup.add(warmButton);
-      themeGroup.add(coolButton);
-      themeGroup.add(transparentButton);
-   
+      //Defines 4 separate buttons for each possible theme and add them to a button group
+      // to ensure only one can be activated at a time
+      for (int i = 0; i < themes.length; i++) {
+         radioButtons[i] = new JRadioButton(String.format("%s Theme", themes[i]));
+         radioButtons[i].addItemListener(new ThemeListener(themes[i]));
+         themePanel.add(radioButtons[i]);
+         themeGroup.add(radioButtons[i]);
+      }
+
       //creates a Scanner object to scan savedata.txt. If no file exists, it will prompt the user to make one. 
       
       Scanner infile = null;
@@ -111,40 +100,41 @@ public class OptionsPanel extends JPanel {
       
       String saveTheme = infile.nextLine(); 
       int currentVolume = Integer.parseInt(infile.nextLine()); 
+      infile.close(); 
       
       //The Display pngs were created with help from piskellapp.com, an online image editor that lets users draw images pixel by pixel.
       //changes the image displayed based on the theme that was chosen.
-      if(saveTheme.equalsIgnoreCase("Default"))
+      if(saveTheme.equals("Default"))
       {
          ImageIcon defaultIcon2 = new ImageIcon("defaultDisplay.png");
          defaultIcon2.getImage().flush();
          imgLabel = new JLabel(defaultIcon2);
          previewPanel.add(imgLabel);
-         defaultButton.setSelected(true);
+         radioButtons[0].setSelected(true);
       }
-      if(saveTheme.equalsIgnoreCase("Cool"))
+      if(saveTheme.equals("Cool"))
       {
          ImageIcon defaultIcon2 = new ImageIcon("coolDisplay.png");
          defaultIcon2.getImage().flush();
          imgLabel = new JLabel(defaultIcon2);
          previewPanel.add(imgLabel);
-         coolButton.setSelected(true);
+         radioButtons[1].setSelected(true);
       }
-      if(saveTheme.equalsIgnoreCase("Warm"))
+      if(saveTheme.equals("Warm"))
       {
          ImageIcon defaultIcon2 = new ImageIcon("warmDisplay.png");
          defaultIcon2.getImage().flush();
          imgLabel = new JLabel(defaultIcon2);
          previewPanel.add(imgLabel);
-         warmButton.setSelected(true);
+         radioButtons[2].setSelected(true);
       }
-      if(saveTheme.equalsIgnoreCase("Transparent"))
+      if(saveTheme.equals("Transparent"))
       {
          ImageIcon defaultIcon2 = new ImageIcon("transparentDisplay.png");
          defaultIcon2.getImage().flush();
          imgLabel = new JLabel(defaultIcon2);
          previewPanel.add(imgLabel);
-         transparentButton.setSelected(true);
+         radioButtons[3].setSelected(true);
       }
    
 
@@ -165,12 +155,12 @@ public class OptionsPanel extends JPanel {
       volumePanel.add(volumeControl); 
       //creates a slider of values 0-100 defaulting at 50
       volumeSlider = new JSlider(0, 100, currentVolume);
-      volumeSlider.addChangeListener(new sliderListener());
+      volumeSlider.addChangeListener(new SliderListener());
       volumeControl.add(volumeSlider);
       
       //textfield showing the value of the slider defaults at 50
       volumeBox = new JTextField("" + currentVolume, 3);
-      volumeBox.addActionListener(new boxListener());
+      volumeBox.addActionListener(new BoxListener());
       volumeControl.add(volumeBox);
       
       //panel containing the back and save buttons
@@ -181,25 +171,29 @@ public class OptionsPanel extends JPanel {
       
       JButton saveButton = new JButton("Save");
       saveButton.setFont(new Font("Monospaced", Font.BOLD, 50)); 
-      saveButton.addActionListener(new saveListener()); 
+      saveButton.addActionListener(new SaveListener()); 
       buttonControl.add(saveButton);
       
       JButton exitButton = new JButton("Back");
       exitButton.setFont(new Font("Monospaced", Font.BOLD, 50)); 
-      exitButton.addActionListener(new exitListener(myFrame));
+      exitButton.addActionListener(new BackListener(myFrame));
       buttonControl.add(exitButton);
-      infile.close(); 
-
    }
    
-   /*
-   *themeListener checks the thme and changes the image/display based on the one that was chosen
-   */
-   
-   private class themeListener implements ItemListener  {
+   //paints the buffered-image
+   public void paintComponent(Graphics g) {
+      g.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
+   }
+
+
+   // Listeners
+   /**
+   * ThemeListener checks the thme and changes the image/display based on the one that was chosen
+   */ 
+   private class ThemeListener implements ItemListener  {
       private String myTheme;
    
-      public themeListener(String themeName) {
+      public ThemeListener(String themeName) {
          myTheme = themeName;
       }
       
@@ -230,29 +224,28 @@ public class OptionsPanel extends JPanel {
       }
    }
    
-   /*
-   *sliderListener changes the value of the slider based on the number in the box
+   /**
+   * SliderListener changes the value of the slider based on the number in the box
    */
-   public class sliderListener implements ChangeListener {
+   public class SliderListener implements ChangeListener {
       public void stateChanged (ChangeEvent e) {
-         //add code to actually change volume lol
          volumeBox.setText("" + volumeSlider.getValue());
       }
    }
    
-   /*
-   *boxListener changes the value of the box based on the slider value
+   /**
+   * BoxListener changes the value of the box based on the slider value
    */
-   public class boxListener implements ActionListener {
+   public class BoxListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
          volumeSlider.setValue(Integer.parseInt(volumeBox.getText()));
       }
    }
    
-   /*
-   *saveListener writes the settings that the user had to savadata.txt
+   /**
+   * SaveListener writes the settings that the user had to savadata.txt
    */
-   public class saveListener implements ActionListener {
+   public class SaveListener implements ActionListener {
       public void actionPerformed(ActionEvent e) {
       
          PrintStream outfile = null;
@@ -271,24 +264,18 @@ public class OptionsPanel extends JPanel {
       }
    }
 
-   /*
-   *exitListener is a listener that brings users back to the main menu when the back button is pressed
+   /**
+   * BackListener is a listener that brings users back to the main menu when the back button is pressed
    */
-   public class exitListener implements ActionListener {
+   public class BackListener implements ActionListener {
       JFrame theFrame;
-      public exitListener(JFrame frame) {
+      public BackListener(JFrame frame) {
          theFrame = frame;
       }
       public void actionPerformed(ActionEvent e) {
          theFrame.setContentPane(new TetrisPanel(theFrame));
          theFrame.setVisible(true);
-         
       }
-   }
-   
-   //paints the buffered-image
-   public void paintComponent(Graphics g) {
-      g.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
    }
 
 }
