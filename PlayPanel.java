@@ -8,7 +8,6 @@ import java.awt.*;
 import javax.swing.JPanel;
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.io.*; 
 import java.util.*; 
 import javax.swing.JOptionPane;
@@ -23,8 +22,8 @@ public class PlayPanel extends JPanel {
    private static javax.swing.Timer timer; //creates a swing timer 
    private static ArrayList<Tetromino> sequence = new ArrayList<>();  //creates an arrayList called sequence 
    private static int sequencer; 
+   private static Queue<Integer> blockQueue = new LinkedList<Integer>();
    private static int blockNumber = 0;
-   private static int prevBlock = 0;
    private static int scoreScores = 5; 
    private static Key key;
    private static int totalScore = 0;
@@ -40,7 +39,7 @@ public class PlayPanel extends JPanel {
    ***/
    public PlayPanel(JFrame myFrame, String theme) {
       
-      //creates a Scanner object that will check TetrisScores.txt and will create one if it doesn't exist
+      //creates a Scanner object that will check TetrisScores.txt and create one if it doesn't exist
       Scanner infile = null;
       try{
          infile = new Scanner(new File("TetrisScores.txt"));
@@ -59,7 +58,8 @@ public class PlayPanel extends JPanel {
             JOptionPane.showMessageDialog(null, "Something has gone wrong. Please restart the program and try again!");
          }
                
-      }       
+      }    
+
       numItems = infile.nextInt(); 
       scoresArray = new int[numItems]; 
       namesArray = new String[numItems];
@@ -74,9 +74,9 @@ public class PlayPanel extends JPanel {
       //sets the layout of PlayPanel
       setLayout(new BorderLayout());
       
-      
       JPanel scorePanel = new JPanel();
       scorePanel.setLayout(new FlowLayout());
+      scorePanel.setBackground(Color.ORANGE);
       add(scorePanel, BorderLayout.NORTH);
       
       //creates the leaderboard panel
@@ -95,29 +95,58 @@ public class PlayPanel extends JPanel {
       int[] newArray = sort(scoresArray); //sorts the array by largest first
       
       if(numItems >=5) //only gets called if the number of entered scores is greater than or equal to 5
-         output(newArray, namesArray);        
+         output(newArray, namesArray);    
       
+      
+      // Where the game takes place
       JPanel mainPanel = new JPanel(); 
-      mainPanel.setLayout(new GridLayout(1, 3)); 
+      mainPanel.setLayout(new GridLayout(1, 3));
       add(mainPanel, BorderLayout.CENTER); 
       
+      // Where the hold will be
       JPanel leftPanel = new JPanel(); 
-      leftPanel.setLayout(new BorderLayout()); 
-      mainPanel.add(leftPanel);  
-      
-      JPanel boardPanel = new JPanel();
-      boardPanel.setLayout(new GridLayout(20, 10));
-      mainPanel.add(boardPanel);
+      leftPanel.setLayout(new GridLayout(2,1)); 
+      leftPanel.setBackground(Color.ORANGE);
+      mainPanel.add(leftPanel);
+
+      JLabel holdLabel = new JLabel("Hold", SwingConstants.CENTER); 
+      holdLabel.setFont(new Font("Monospaced", Font.BOLD, 16)); 
+      leftPanel.add(holdLabel); 
+
+      JPanel holdPanel = new JPanel();
+      holdPanel.setLayout(new GridLayout(5,5));
+      holdPanel.setBackground(Color.ORANGE);
+      leftPanel.add(holdPanel);
+
+      JButton[][] holdSection = new JButton[5][5];
+      for (int r = 0; r < 5; r++) {
+         for (int c = 0; c < 5; c++) {
+            holdSection[r][c] = new JButton("");
+            if (r%4 != 0 && c%4 != 0) {
+               holdSection[r][c].setBackground(Color.BLACK);
+            } else {
+               holdSection[r][c].setBackground(Color.ORANGE);
+            }
+            holdSection[r][c].setOpaque(true);
+            holdSection[r][c].setBorderPainted(false);
+            holdSection[r][c].setEnabled(false);
+            holdPanel.add(holdSection[r][c]);
+         }
+      }
       
       //create the board
-      
       // on Mac, must setOpaque(true) and setBorderPainted(false)
+
+      JPanel boardPanel = new JPanel();
+      boardPanel.setLayout(new GridLayout(20, 10));
+      boardPanel.setBackground(Color.ORANGE);
+      mainPanel.add(boardPanel);
 
       board = new JButton[20][10];
       for (int r = 0; r < 20; r++) {
          for (int c = 0; c < 10; c++) {
             board[r][c] = new JButton("");
-            board[r][c].setBackground(Color.black);
+            board[r][c].setBackground(Color.BLACK);
             board[r][c].setOpaque(true);
             board[r][c].setBorderPainted(false);
             board[r][c].setEnabled(false);
@@ -128,21 +157,22 @@ public class PlayPanel extends JPanel {
          
       }
       
-      JPanel nextPiece = new JPanel();
-      nextPiece.setLayout(new GridLayout(3, 1));  
-      mainPanel.add(nextPiece); 
+      JPanel rightPanel = new JPanel();
+      rightPanel.setLayout(new GridLayout(3, 1));
+      rightPanel.setBackground(Color.ORANGE);
+      mainPanel.add(rightPanel); 
       
-      JLabel nextLabel = new JLabel("", SwingConstants.CENTER); 
+      JLabel nextLabel = new JLabel("Next: ", SwingConstants.CENTER); 
       nextLabel.setFont(new Font("Monospaced", Font.BOLD, 16)); 
-      nextPiece.add(nextLabel); 
+      rightPanel.add(nextLabel); 
       
       JLabel scoreLabel = new JLabel("Score:", SwingConstants.CENTER); 
       scoreLabel.setFont(new Font("Monospaced", Font.BOLD, 16)); 
-      nextPiece.add(scoreLabel); 
+      rightPanel.add(scoreLabel); 
       
-      scoreLabel2 = new JLabel("----", SwingConstants.CENTER); 
+      JLabel scoreLabel2 = new JLabel("----", SwingConstants.CENTER); 
       scoreLabel2.setFont(new Font("Monospaced", Font.BOLD, 16)); 
-      nextPiece.add(scoreLabel2); 
+      rightPanel.add(scoreLabel2); 
       
       timer = new javax.swing.Timer(500, new Listener(theme)); //starts the timer that will make the pieces move down and update
       timer.start();
@@ -152,8 +182,9 @@ public class PlayPanel extends JPanel {
       setFocusable(true);
    
       // we create the very first block in the constructor so the program doesn't bug the hell out
-      sequencer = (int)(Math.random() * 7 + 1);
-      prevBlock = sequencer;
+      Sequence.generateSequence(blockQueue);
+      sequencer = blockQueue.remove();
+
       if(theme.equalsIgnoreCase("Default")) {
          switch(sequencer) {
             case 1: sequence.add(new IPiece(4, 0, Color.CYAN, "Ipiece")); 
@@ -369,6 +400,9 @@ public class PlayPanel extends JPanel {
             board[sequence.get(blockNumber).getY(2)][sequence.get(blockNumber).getX(2)].setBackground(sequence.get(blockNumber).getColor());
             board[sequence.get(blockNumber).getY(3)][sequence.get(blockNumber).getX(3)].setBackground(sequence.get(blockNumber).getColor());
          }
+         if(e.getKeyCode() == 'H'){
+            //Figure out what to do here...
+         }
 
       }
    }
@@ -398,32 +432,21 @@ public class PlayPanel extends JPanel {
             newSaveFile1.println(totalScore);
             newSaveFile1.println(initials);    
          }
-         catch(FileNotFoundException e)
-         {
-         }
+         catch(FileNotFoundException e){}
          
          JOptionPane.showMessageDialog(null, "Well Done! If you would like to play again, please close and restart the program! :)"); 
          System.exit(0);
       }
       String theme = myTheme;
       
-      //creates a new arrayList grabBag each time that helps the program cycle between the seven different block types
-      ArrayList<Integer> grabBag = new ArrayList<>(7);
-      for (int m = 0; m < 7; m++) {
-         grabBag.add(0);
-      }
       //prevents sequence from being filled up with a bunch of random Tetrominos
       if (blockNumber % 7 == 0) {
+
+         Sequence.generateSequence(blockQueue);
       
          for (int n = 0; n < 7; n++) {
          
-            do 
-            {
-               sequencer = (int)(Math.random() * 7 + 1);
-            } while (grabBag.contains(sequencer));
-         
-            grabBag.set(n, sequencer);
-         
+            sequencer = blockQueue.remove();
             if(theme.equalsIgnoreCase("Default")) {
                switch(sequencer) {
                   case 1: sequence.add(new IPiece(4, 0, Color.CYAN, "Ipiece")); 
@@ -524,15 +547,8 @@ public class PlayPanel extends JPanel {
             else {
                System.out.println("Something has gone wrong...");
             }
-            System.out.print(sequencer + " ");
          
-         }
-         //if the first block in the new cycle was the same as the last block in the previous cycle
-         //switches the first block and the 6th block
-         
-         prevBlock = grabBag.get(6);
-         System.out.println("Prev block = " + prevBlock);
-         
+         }         
       }
    
       //add multiple speeds to make game more challenging at different score levels
@@ -634,13 +650,8 @@ public class PlayPanel extends JPanel {
    public void clearRows() {
       int numInRow = 0;
       for(int r = 0; r < matrix.length; r++) {
-         for (int c = 0; c < matrix[0].length; c++) {
-            if(matrix[r][c] != 0) {
-               numInRow++;
-            }
-         }
-         if(numInRow == 10)
-         {
+         for (int c = 0; c < matrix[0].length; c++) if(matrix[r][c] != 0) numInRow++;
+         if(numInRow == 10) {
             for(int x = r; x > 5 ; x--)
                for(int y = 0; y < matrix[0].length; y++) {
                   
@@ -655,8 +666,7 @@ public class PlayPanel extends JPanel {
                   }
 
                }  
-            totalScore += 100; 
-            scoreLabel2.setText("" + totalScore);    
+            totalScore += 100;  
          }
          numInRow = 0;      
       }
