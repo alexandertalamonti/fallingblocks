@@ -23,7 +23,7 @@ public class OPiece extends Tetromino {
       myLowestBlock.add(3);
    }
 
-   //The OPiece is a square so the clockwise and counterClockwise methods could be left as they were
+   //The OPiece is a square so the clockwise and counterClockwise methods can be left as they were
    
    /************************************************************* 
    * Makes the OPiece rotate clockwise and is a concrete method that 

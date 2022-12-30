@@ -40,7 +40,7 @@ public class OptionsPanel extends JPanel {
    */
    public OptionsPanel(JFrame myFrame) { 
       
-            
+      
       //setting the background and the layout of the options panel
       setBackground(Color.black);  
       setLayout(new BorderLayout()); 

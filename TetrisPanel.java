@@ -24,11 +24,24 @@ public class TetrisPanel extends JPanel {
    private static final ImageIcon background = new ImageIcon("Tetris Background.png"); 
 
    // Initialize map to hold ImageIcons for each title
-   public Map<String, String> titles = Map.of(
+   private Map<String, String> titles = Map.of(
       "Default", "Title.png",
       "Cool", "Title-Cool.png",
       "Warm", "Title-Warm.png",
       "Transparent", "Title-Transparent.png"
+   );
+
+   // Determine Button color themes
+   private Color[] defaultButtons = {Color.RED.brighter(), Color.ORANGE, Color.GREEN, Color.BLUE.brighter(), Color.MAGENTA};
+   private Color[] coolButtons = {Color.CYAN, Color.MAGENTA.darker(), Color.BLUE, Color.GREEN.darker(), Color.BLUE.darker()};
+   private Color[] warmButtons = {Color.ORANGE, Color.YELLOW.darker(), Color.RED, Color.PINK.darker(), Color.ORANGE.darker()};
+   private Color[] transparentButtons = {Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK};
+
+   private Map<String, Color[]> colors = Map.of(
+         "Default", defaultButtons,
+         "Cool", coolButtons,
+         "Warm", warmButtons,
+         "Transparent", transparentButtons
    );
 
    private String[] buttonLabelList = {"Play Game", "How To Play", "Options", "Exit Game", "Credits"};
@@ -117,42 +130,12 @@ public class TetrisPanel extends JPanel {
          buttons[i].setFont(new Font("Monospaced", Font.BOLD, 40));
          buttons[i].setOpaque(true);
          buttons[i].setBorderPainted(false);
+         buttons[i].setBackground(colors.get(saveTheme)[i]);
+         buttons[i].setForeground(Color.WHITE);
       }
 
+      // Add title image
       buffer.drawImage(new ImageIcon(titles.get(saveTheme)).getImage(), 75, 50, 1200, 700, null);
-
-      if(saveTheme.equals("Default"))
-      {
-         buttons[0].setBackground(Color.RED.brighter()); 
-         buttons[1].setBackground(Color.ORANGE);
-         buttons[2].setBackground(Color.GREEN);
-         buttons[3].setBackground(Color.BLUE.brighter());
-         buttons[4].setBackground(Color.MAGENTA);
-      }
-      else if(saveTheme.equals("Cool"))
-      {         
-         buttons[0].setBackground(Color.CYAN);
-         buttons[1].setBackground(Color.MAGENTA.darker());
-         buttons[2].setBackground(Color.BLUE);
-         buttons[3].setBackground(Color.GREEN.darker());
-         buttons[4].setBackground(Color.BLUE.darker());
-      }
-      else if(saveTheme.equals("Warm"))
-      {         
-         buttons[0].setBackground(Color.ORANGE);
-         buttons[1].setBackground(Color.YELLOW.darker());
-         buttons[2].setBackground(Color.RED);
-         buttons[3].setBackground(Color.PINK.darker());
-         buttons[4].setBackground(Color.ORANGE.darker());
-      }
-      else if(saveTheme.equals("Transparent"))
-      {         
-         buttons[0].setBackground(Color.BLACK);
-         buttons[1].setBackground(Color.BLACK);
-         buttons[2].setBackground(Color.BLACK);
-         buttons[3].setBackground(Color.BLACK);
-         buttons[4].setBackground(Color.BLACK);
-      }
       
       buttons[0].addActionListener(new PlayListener(myFrame, saveTheme)); 
       buttons[1].addActionListener(new SwitchListener(myFrame, new InstructionsPanel(myFrame))); 
@@ -161,7 +144,6 @@ public class TetrisPanel extends JPanel {
       buttons[4].addActionListener(new SwitchListener(myFrame, new CreditsPanel(myFrame))); 
 
       for (JButton button : buttons) {
-         button.setForeground(Color.WHITE);
          mainMenu.add(button);
       }
    }
